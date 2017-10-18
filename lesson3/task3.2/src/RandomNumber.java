@@ -1,10 +1,10 @@
 import java.util.Random;
 
-public class RandomNumbers{
+public class RandomNumber{
 
 	private int[] numbers;
 
-	public RandomNumbers(int quantity) {
+	public RandomNumber(int quantity) {
 		numbers = new int[quantity];
 		for (int i = 0; i < quantity; i++)
 			numbers[i] = getRandomNumber();

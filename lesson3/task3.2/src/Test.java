@@ -2,9 +2,9 @@ public class Test {
 
 	public static void main(String[] args) {
 
-		RandomNumbers randomNumbers = new RandomNumbers(3); // set quantity of numbers in constructor
-		randomNumbers.showNumbers();
-		randomNumbers.showSum();
+		RandomNumber randomNumber = new RandomNumber(3); // set quantity of numbers in constructor
+		randomNumber.showNumbers();
+		randomNumber.showSum();
 
 	}
 
