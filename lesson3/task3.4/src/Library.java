@@ -1,5 +1,3 @@
-package task4;
-
 public class Library implements ILibrary {
 
 	Book[] bookList;

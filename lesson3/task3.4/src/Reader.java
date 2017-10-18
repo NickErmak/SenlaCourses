@@ -1,5 +1,3 @@
-package task4;
-
 public class Reader extends AbstractReader {
 
 	private Book[] bookList;

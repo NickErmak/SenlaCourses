@@ -1,5 +1,3 @@
-package task3;
-
 public class LgTV40Inch extends LgTV {
 
 	final private int weightOnePiece;

@@ -1,5 +1,3 @@
-package task3;
-
 public class SamsungTV70Inch extends SamsungTV{
 	
 	final private int weightOnePiece;

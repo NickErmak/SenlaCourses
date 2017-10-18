@@ -1,5 +1,3 @@
-package task4;
-
 public class Book extends AbstractBook{
 	
 	private Reader reader;

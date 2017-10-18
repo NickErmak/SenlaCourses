@@ -1,5 +1,3 @@
-package task4;
-
 public abstract class AbstractReader {
 
 	private String name;

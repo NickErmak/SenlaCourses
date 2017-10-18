@@ -1,5 +1,3 @@
-package task3;
-
 public class Storage implements IStorage {
 
 	private AProduct[] productList;

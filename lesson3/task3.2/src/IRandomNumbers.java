@@ -1,5 +1,3 @@
-package task2;
-
 public interface IRandomNumbers {
 
 	public void showNumbers();

@@ -1,5 +1,3 @@
-package task3;
-
 public abstract class AProduct {
 
 	private int quantity;

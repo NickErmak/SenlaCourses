@@ -1,5 +1,3 @@
-package task4;
-
 public class Test {
 
 	// looking forward to collections

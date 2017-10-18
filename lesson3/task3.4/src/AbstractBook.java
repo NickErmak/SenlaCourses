@@ -1,5 +1,3 @@
-package task4;
-
 public abstract class AbstractBook {
 
 	private String title;

@@ -1,5 +1,3 @@
-package task4;
-
 public interface ILibrary {
 	
 	public void showReaders();
