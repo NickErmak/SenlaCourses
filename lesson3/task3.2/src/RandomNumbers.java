@@ -1,6 +1,6 @@
 import java.util.Random;
 
-public class RandomNumbers implements IRandomNumbers{
+public class RandomNumbers{
 
 	private int[] numbers;
 
@@ -10,14 +10,12 @@ public class RandomNumbers implements IRandomNumbers{
 			numbers[i] = getRandomNumber();
 	}
 
-	@Override
 	public void showNumbers() {
 		System.out.println("Auto-generated 3-digit numbers:");
 		for (int number : numbers)
 			System.out.println(number);
 	}
 
-	@Override
 	public void showSum() {
 		int firstDigitSum = 0;
 		for (int number : numbers)
