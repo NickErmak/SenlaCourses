@@ -1,25 +1,21 @@
-package task2;
-
 import java.util.Random;
 
-public class RandomNumbers implements IRandomNumbers{
+public class RandomNumber{
 
 	private int[] numbers;
 
-	public RandomNumbers(int quantity) {
+	public RandomNumber(int quantity) {
 		numbers = new int[quantity];
 		for (int i = 0; i < quantity; i++)
 			numbers[i] = getRandomNumber();
 	}
 
-	@Override
 	public void showNumbers() {
 		System.out.println("Auto-generated 3-digit numbers:");
 		for (int number : numbers)
 			System.out.println(number);
 	}
 
-	@Override
 	public void showSum() {
 		int firstDigitSum = 0;
 		for (int number : numbers)

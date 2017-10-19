@@ -1,2 +1,18 @@
+<<<<<<< HEAD
 lesson1/
+lesson2/
+=======
+#ignore unused files and folders in java workspace 
 
+bin/*
+.settings/*
+
+
+*.classpath
+*.project
+*.class
+*.prefs
+
+*.jar
+*.war
+>>>>>>> master
