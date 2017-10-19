@@ -1,23 +1,31 @@
 public class Storage implements IStorage {
 
-	private AProduct[] productList;
+	private AProduct[] productStorage;
 
-	public Storage(AProduct[] product) {
-		this.productList = product;
+	public Storage(int cellQuantity) {
+		productStorage = new AProduct[cellQuantity];
 	}
 
 	@Override
 	public int getTotalWeight() {
 		int totalWeight = 0;
-		for (AProduct product : productList)
-			totalWeight += product.getProductTotalWeight();
+		for (AProduct product : productStorage)
+			if (product != null) totalWeight += product.getWeight();
 		return totalWeight;
 	}
 
 	@Override
 	public void showTotalWeight() {
-		System.out.println("Total weight of all products = " + getTotalWeight());
+		System.out.println("Total weight of products on storage = " + getTotalWeight());
+	}
 
+	@Override
+	public void addProduct(AProduct product) {
+		if (ArrayHandler.hasArrayFreeCell(productStorage)) {
+			productStorage[ArrayHandler.getFreeCellIndex(productStorage)] = product;
+			System.out.println(product + " successfully added");}
+		else
+			System.out.println("Can't add product: storage is full");
 	}
 
 }
