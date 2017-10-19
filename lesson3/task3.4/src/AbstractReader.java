@@ -1,12 +1,12 @@
-public abstract class AbstractReader {
+public abstract class AbstractReader extends IdElement {
 
 	private String name;
 	private String surname;
 
-	public AbstractReader(String name, String surname) {
+	public AbstractReader(String name, String surname, int id) {
+		super(id);
 		this.name = name;
 		this.surname = surname;
-
 	}
 
 	public String getName() {
@@ -27,13 +27,11 @@ public abstract class AbstractReader {
 
 	@Override
 	public String toString() {
-		return "Reader [" + name + " " + surname + "]";
+		return "Reader [name=" + name + ", surname=" + surname + ", id=" + id + "]";
 	}
 
-	abstract public void addBook(Book book);
+	abstract public AbstractBook[] getBookList();
 
-	abstract public void deleteBook(Book book);
-
-	abstract public void showBookList();
+	abstract public void setBookList(AbstractBook[] bookList);
 
 }

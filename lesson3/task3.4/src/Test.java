@@ -1,36 +1,55 @@
+
 public class Test {
 
-	// looking forward to collections
+	private static void addBook(ILibraryManager libManager) {
+		libManager.addBook("1984", "Charles Baudelaire", 111);
+		libManager.addBook("The flowers of evil", "Charles Baudelaire", 357);
+		libManager.addBook("Alice's adventures in wonderland", "Lewis Carroll", 144);
+		libManager.addBook("The Catcher in the Rye", "J. D. Salinger", 12);
+		libManager.addBook("The Glass Bead Game", "Hermann Hesse", 7);
+	}
+
+	private static void addReader(ILibraryManager libManager) {
+		libManager.addReader("John", "Smith", 13);
+		libManager.addReader("Mary", "Jane", 55);
+	}
+
+	private static void setBook(ILibraryManager libManager) {
+		libManager.setBookOnReader(13, 111);
+		libManager.setBookOnReader(13, 357);
+		libManager.setBookOnReader(13, 144);
+	}
+
 	public static void main(String[] args) {
 
-		// set max total of books, readers and max books for one reader via constructor
-		Library library = new Library(new Book[100], new Reader[100], 5);
+		// set max readers, max books in library and max quantity of books for 1 reader
+		// in constructor
+		ILibraryManager libManager = new LibraryManager(1000, 100, 5);
 
-		Book book1984 = new Book("1984", "George Orwell", 1948);
-		Book bookTheFlowersOfEvil = new Book("The flowers of evil", "Charles Baudelaire", 1857);
-		Book bookAliceInWondeland = new Book("Alice's adventures in wonderland", "Lewis Carroll", 1865);
+		// add books to library with id
+		addBook(libManager);
 
-		library.addBook(book1984);
-		library.addBook(bookTheFlowersOfEvil);
-		library.addBook(bookAliceInWondeland);
+		// add readers to library with id
+		addReader(libManager);
 
-		library.addReader("John", "Smith");
-		library.addReader("Mary", "Jane");
-		Reader readerSmith = library.getReader("John", "Smith");
+		// add books to definite reader
+		setBook(libManager);
 
-		readerSmith.addBook(book1984);
-		readerSmith.addBook(bookTheFlowersOfEvil);
-		readerSmith.addBook(bookAliceInWondeland);
-		readerSmith.showBookList();
+		// show book at reader with id=13
+		libManager.showReaderBookList(13);
 
-		readerSmith.deleteBook(bookTheFlowersOfEvil);
-		readerSmith.showBookList();
-		
-		//check who reads the exact book
-		System.out.println("\n" + book1984.getReader());
+		// check who reads the exact book with id=357
+		libManager.showReaderOfBook(357);
 
-		library.showBooks();
-		library.showReaders();
+		libManager.removeBookFromReader(13, 357);
+
+		// check who reads the exact book
+		libManager.showReaderOfBook(357);
+
+		libManager.showReaderBookList(13);
+
+		libManager.showLibraryBookList();
+		libManager.showLibraryReaderList();
 	}
 
 }

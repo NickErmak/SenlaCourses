@@ -1,13 +1,13 @@
-public abstract class AbstractBook {
+
+public abstract class AbstractBook extends IdElement {
 
 	private String title;
 	private String author;
-	private int yearEdition;
 
-	public AbstractBook(String title, String author, int yearEdition) {
+	public AbstractBook(String title, String author, int id) {
+		super(id);
 		this.title = title;
 		this.author = author;
-		this.yearEdition = yearEdition;
 	}
 
 	public String getTitle() {
@@ -26,20 +26,15 @@ public abstract class AbstractBook {
 		this.author = author;
 	}
 
-	public int getYearEdition() {
-		return yearEdition;
-	}
-
-	public void setYearEdition(int yearEdition) {
-		this.yearEdition = yearEdition;
-	}
-
 	@Override
 	public String toString() {
-		return "Book [" + title + ", " + author + ", " + yearEdition + " edition]";
+		String reader = "no current reader";
+		if (getReader()!=null) reader = getReader().toString();
+		return "Book [title=" + title + ", author=" + author + ", id=" + id + "] "+ reader;
 	}
 
-	abstract public Reader getReader();
+	abstract public AbstractReader getReader();
 
-	abstract public void setReader(Reader reader);
+	abstract public void setReader(AbstractReader reader);
+
 }
