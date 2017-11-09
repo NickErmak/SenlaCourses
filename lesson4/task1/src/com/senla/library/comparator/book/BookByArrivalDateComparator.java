@@ -4,14 +4,19 @@ import java.util.Comparator;
 
 import com.senla.library.entity.Book;
 
-public class BookByOnStockComparator implements Comparator<Book> {
+public class BookByArrivalDateComparator implements Comparator<Book>{
 
+	public BookByArrivalDateComparator() {
+		
+	}
+	
 	@Override
 	public int compare(Book book1, Book book2) {
 		if (book1 != null && book2 != null)
-			return Boolean.compare(book2.isOnStock(), book1.isOnStock());
+			return book1.getPublicationDate().compareTo(book2.getPublicationDate());
 		else
 			return 0;
 	}
+
 
 }

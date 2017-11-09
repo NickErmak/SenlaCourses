@@ -4,7 +4,7 @@ import java.util.Comparator;
 
 import com.senla.library.entity.Book;
 
-public class BookByDateComparator implements Comparator<Book> {
+public class BookByPublicationDateComparator implements Comparator<Book> {
 
 	@Override
 	public int compare(Book book1, Book book2) {

@@ -1,6 +1,3 @@
 @echo off
-java -cp task4.jar;textFileWorker.jar com.senla.library.Test 
-book_file.txt
-order_file.txt
-request_file.txt
+java -cp library.jar;textFileWorker.jar com.senla.library.Test other_folder/book.txt other_folder/order.txt other_folder/request.txt other_folder/relation.txt
 pause

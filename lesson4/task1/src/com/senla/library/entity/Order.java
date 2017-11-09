@@ -1,12 +1,12 @@
 package com.senla.library.entity;
 
 import java.util.Date;
+
 import com.senla.library.repository.OrderRepository;
-import com.senla.library.util.ArrayHandler;
 import com.senla.library.util.DateConverter;
 import com.senla.library.util.IdGenerator;
 
-public class Order extends EntityId {
+public class Order extends Entity {
 
 	private int id;
 	private String name;
@@ -14,16 +14,29 @@ public class Order extends EntityId {
 	private double totalAmount;
 	private Status status;
 	private OrderBookRelation[] orderBookList;
-	private String[] OrderBookRelationIdList;
 
+	public Order() {
+		orderBookList = new OrderBookRelation[OrderRepository.MAX_BOOK];
+	}
+	
 	public Order(String name) {
+		this();
 		id = IdGenerator.generateId() + OrderRepository.ID_LAST_DIGIT;
 		this.name = name;
 		totalAmount = 0;
-		status = Status.PROCESSING;
-		orderBookList = new OrderBookRelation[OrderRepository.MAX_BOOK];
+		status = Status.PROCESSING;		
 	}
 
+	public Order(String[] data) {
+		this();
+		id = Integer.valueOf(data[0]);
+		name = data[1];
+		date = DateConverter.stringToDate(data[2]);
+		totalAmount = Double.valueOf(data[3]);
+		status = Status.getStatus(data[4]);		
+	}
+
+	@Override
 	public int getId() {
 		return id;
 	}
@@ -33,15 +46,11 @@ public class Order extends EntityId {
 	}
 
 	public void setTotalAmount(double totalAmount) {
-		this.totalAmount += totalAmount;
+		this.totalAmount = totalAmount;
 	}
 
 	public void setStatus(Status status) {
 		this.status = status;
-	}
-
-	public void addOrderBookRelation(OrderBookRelation relation) {
-		orderBookList[ArrayHandler.getFreeCellIndex(orderBookList)] = relation;
 	}
 
 	public OrderBookRelation[] getOrderBookList() {
@@ -60,44 +69,22 @@ public class Order extends EntityId {
 		return status;
 	}
 
-	public String getOrderBookRelationId() {
-		StringBuilder allRelationId = new StringBuilder();
-		for (OrderBookRelation relation : orderBookList)
-			if (relation == null)
-				return null;
-			else
-				allRelationId.append(relation.getBook().getId()).append("id");
-		return allRelationId.toString();
-	}
-
-	@Override
-	public String toString() {
-
-		String dateToString = "null";
-		if (date != null)
-			dateToString = DateConverter.dateToString(date);
-		return "Order [name = " + name + "date = " + dateToString + ", " + "totalAmount = " + totalAmount + ""
-				+ ", status = " + status.statusType + ", id = " + id + "]";
-	}
-
 	public String getName() {
 		return name;
-	}
-
-	public void setId(int id) {
-		this.id = id;
 	}
 
 	public void setOrderBookList(OrderBookRelation[] orderBookList) {
 		this.orderBookList = orderBookList;
 	}
 
-	public void setOrderBookRelationIdList(String[] orderBookRelationIdList) {
-		OrderBookRelationIdList = orderBookRelationIdList;
+	@Override
+	public Entity convertEntity(String[] data) {
+		return new Order(data);
 	}
 
-	public String[] getOrderBookRelationIdList() {
-		return OrderBookRelationIdList;
+	@Override
+	public String toString() {
+		return id + "%%" + name + "%%" + DateConverter.dateToString(date) + "%%" + totalAmount + "%%" + status;
 	}
 
 }
