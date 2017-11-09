@@ -1,31 +1,39 @@
 package com.senla.library.entity;
 
-public class OrderBookRelation extends EntityId{
+public class OrderBookRelation extends Entity{
 	
-	private Order order;
-	private Book book;
+	private int orderId;
+	private int bookId;
 	
-	public OrderBookRelation (Order order, Book book) {
-		this.order = order;
-		this.book = book;
-	}	
+	public OrderBookRelation() {}
+	
+	public OrderBookRelation(int orderId, int bookId) {
+		this.orderId = orderId;
+		this.bookId = bookId;
+	}
+	
+	public OrderBookRelation(String[] data) {
+		orderId = Integer.valueOf(data[0]);
+		bookId = Integer.valueOf(data[1]);
+	}
+	
+	public int getBookId() {
+		return bookId;
+	}
 	
 	@Override
 	public int getId() {
-		return order.getId();
+		return orderId;
 	}
 	
-	public Order getOrder() {
-		return order;
-	}
-
-	public Book getBook() {
-		return book;
+	@Override
+	public String toString() {
+		return "" + orderId + "%%" + bookId;
 	}
 
 	@Override
-	public String toString() {
-		return book.toString();
-	}
+	public Entity convertEntity(String[] data) {		
+		return new OrderBookRelation(data);		
+	}	
 	
 }

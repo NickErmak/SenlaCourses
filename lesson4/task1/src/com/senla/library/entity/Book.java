@@ -3,11 +3,10 @@ package com.senla.library.entity;
 import java.util.Date;
 
 import com.senla.library.repository.BookRepository;
-import com.senla.library.util.ArrayHandler;
 import com.senla.library.util.DateConverter;
 import com.senla.library.util.IdGenerator;
 
-public class Book extends EntityId {
+public class Book extends Entity {
 
 	private int id;
 	private String title;
@@ -15,20 +14,34 @@ public class Book extends EntityId {
 	private double price;
 	private String description;
 	private boolean onStock;
-	private Request request;
-	private String requestId;
+	private int requestId;
 	private OrderBookRelation[] orderBookList;
-	private String[] OrderBookRelationIdList;
 
+	public Book() {
+		orderBookList = new OrderBookRelation[BookRepository.MAX_ORDER];
+	}
+	
 	public Book(String title, Date publicationDate, double price, String description) {
+		this();
 		id = IdGenerator.generateId() + BookRepository.ID_LAST_DIGIT;
 		this.title = title;
 		this.publicationDate = publicationDate;
 		this.price = price;
-		this.description = description;
-		orderBookList = new OrderBookRelation[BookRepository.MAX_ORDER];
+		this.description = description;		
 	}
 
+	public Book(String[] data) {
+		this();
+		id = Integer.valueOf(data[0]);
+		title = data[1];
+		publicationDate = DateConverter.stringToDate(data[2]);
+		price = Double.valueOf(data[3]);
+		description = data[4];
+		onStock = Boolean.valueOf(data[5]);
+		requestId = Integer.valueOf(data[6]);
+	}
+
+	@Override
 	public int getId() {
 		return id;
 	}
@@ -41,14 +54,6 @@ public class Book extends EntityId {
 		return publicationDate;
 	}
 
-	public void setOnStock(boolean onStock) {
-		this.onStock = onStock;
-	}
-
-	public boolean isOnStock() {
-		return onStock;
-	}
-
 	public double getPrice() {
 		return price;
 	}
@@ -57,55 +62,34 @@ public class Book extends EntityId {
 		return description;
 	}
 
-	public Request getRequest() {
-		return request;
+	public void setOnStock(boolean onStock) {
+		this.onStock = onStock;
 	}
 
-	public void setRequest(Request request) {
-		this.request = request;
+	public boolean isOnStock() {
+		return onStock;
 	}
 
-	public void addOrderBookRelation(OrderBookRelation relation) {
-		orderBookList[ArrayHandler.getFreeCellIndex(orderBookList)] = relation;
-	}
-
-	public int getOrderBookRelationQuantity() {
-		return ArrayHandler.getElementQuantity(orderBookList);
-	}
-
-	public String getOrderBookRelationId() {
-		StringBuilder allRelationId = new StringBuilder();
-		for (OrderBookRelation relation : orderBookList)
-			if (relation == null)
-				return null;
-			else
-				allRelationId.append(relation.getId()).append("id");
-		return allRelationId.toString();
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public String getRequestId() {
+	public int getRequestId() {
 		return requestId;
 	}
 
-	public void setRequestId(String requestId) {
+	public void setRequestId(int requestId) {
 		this.requestId = requestId;
 	}
 
-	public void setOrderBookRelationIdList(String[] orderBookRelationIdList) {
-		OrderBookRelationIdList = orderBookRelationIdList;
+	public OrderBookRelation[] getOrderBookList() {
+		return orderBookList;
 	}
 
-	public String[] getOrderBookRelationIdList() {
-		return OrderBookRelationIdList;
+	@Override
+	public Entity convertEntity(String[] data) {
+		return new Book(data);
 	}
 
 	@Override
 	public String toString() {
-		return "Book [title = " + title + ", publication date = " + DateConverter.dateToString(publicationDate)
-				+ ", price = " + price + ", onStock = " + onStock + ", id = " + id + "]";
+		return id + "%%" + title + "%%" + DateConverter.dateToString(publicationDate) + "%%" + price + "%%"
+				+ description + "%%" + onStock + "%%" + requestId;
 	}
 }

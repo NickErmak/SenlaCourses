@@ -6,17 +6,19 @@ import java.util.Date;
 
 public class DateConverter {
 
+	private static SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
 	public static String dateToString(Date date) {
 		if (date == null)
 			return null;
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
-		return simpleDateFormat.format(date);
+		return dateFormat.format(date);
 	}
 
-	public static Date stringToDate(String date) throws ParseException {
-		if (date.equals("null"))
+	public static Date stringToDate(String date) {
+		try {
+			return dateFormat.parse(date);
+		} catch (ParseException e) {
 			return null;
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
-		return simpleDateFormat.parse(date);
+		}
 	}
 }
