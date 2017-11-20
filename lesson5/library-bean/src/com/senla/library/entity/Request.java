@@ -2,8 +2,8 @@ package com.senla.library.entity;
 
 import java.util.Date;
 
-import com.senla.library.bean.IRequest;
-import com.senla.library.enums.Status;
+import com.senla.library.api.bean.IRequest;
+import com.senla.library.api.bean.Status;
 import com.senla.library.util.DateConverter;
 import com.senla.library.util.IdGenerator;
 

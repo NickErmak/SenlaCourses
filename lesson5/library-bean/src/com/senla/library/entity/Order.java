@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.senla.library.bean.IOrder;
-import com.senla.library.bean.IOrderBookRelation;
-import com.senla.library.enums.Status;
+import com.senla.library.api.bean.IOrder;
+import com.senla.library.api.bean.IOrderBookRelation;
+import com.senla.library.api.bean.Status;
 import com.senla.library.util.DateConverter;
 import com.senla.library.util.IdGenerator;
 

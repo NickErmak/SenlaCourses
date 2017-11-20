@@ -1,31 +1,29 @@
 package com.senla.library.ui;
 
-import com.senla.library.ui.IQuery;
-import com.senla.library.ui.menu.Menu;
-import com.senla.library.ui.menu.MenuItem;
+import com.senla.library.api.ui.ConsoleMessage;
+import com.senla.library.api.ui.menu.IMenu;
 import com.senla.library.util.Printer;
 
 public class Navigator {
+	
+	private IMenu currentMenu;
+	private ConsoleMessage consoleMessage;
 
-	private Menu currentMenu;
-
-	public Navigator(Menu currentMenu) {
-		this.currentMenu = currentMenu;
+	public Navigator(IMenu rootMenu) {		
+		currentMenu = rootMenu;
+		consoleMessage = ConsoleMessage.START;		
 	}
 
 	public void printMenu() {
-		Printer.print(currentMenu);
+		Printer.print(currentMenu, consoleMessage);
 	}
 
-	public IQuery navigate(Integer index) {
-		MenuItem menuItem = currentMenu.getMenuItems()[--index];
-		if (menuItem.getNextMenu() != null) 
-			currentMenu = menuItem.getNextMenu();
-		return menuItem.doAction();
+	public void navigate(IMenu menu) {			
+		currentMenu = menu;		
 	}
 
-	public Menu getCurrentMenu() {
-		return currentMenu;
+	public void setConsoleMessage(ConsoleMessage consoleMessage) {
+		this.consoleMessage = consoleMessage;
 	}
 
 }

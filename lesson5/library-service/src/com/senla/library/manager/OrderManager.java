@@ -5,24 +5,25 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
-import com.senla.library.bean.IOrder;
-import com.senla.library.bean.IOrderBookRelation;
-import com.senla.library.enums.Status;
+import com.senla.library.api.bean.IOrder;
+import com.senla.library.api.bean.IOrderBookRelation;
+import com.senla.library.api.bean.Status;
+import com.senla.library.api.exception.NoSuchIdException;
 import com.senla.library.repository.OrderRepository;
 
 public class OrderManager {
 
 	private final OrderRepository orderRepository;
 
-	public OrderManager(String filePath) {
-		orderRepository = new OrderRepository(filePath);
+	public OrderManager() throws NoSuchIdException {
+		orderRepository = OrderRepository.getInstance();
 	}
 
 	public void addOrder(IOrder order) {
 		orderRepository.addOrder(order);
 	}
 
-	public IOrder getOrder(int orderId) {
+	public IOrder getOrder(int orderId) throws NoSuchIdException {
 		return orderRepository.getOrder(orderId);
 	}
 
@@ -30,20 +31,20 @@ public class OrderManager {
 		return orderRepository.getOrders();
 	}
 
-	public void addOrderBookRelation(IOrderBookRelation relation, double bookPrice) {
+	public void addOrderBookRelation(IOrderBookRelation relation, double bookPrice) throws NoSuchIdException {
 		IOrder order = getOrder(relation.getId());
 		order.setTotalAmount(order.getTotalAmount() + bookPrice);
 		order.getOrderBookList().add(relation);
 	}
 
-	public void completeOrder(int orderId) {
+	public void completeOrder(int orderId) throws NoSuchIdException {
 		IOrder order = orderRepository.getOrder(orderId);
 		order.setStatus(Status.COMPLETED);
 		order.setDate(new Date());
 	}
 
-	public void cancelOrder(IOrder order) {
-		order.setStatus(Status.CANCELLED);
+	public void cancelOrder(int id) throws NoSuchIdException {
+		getOrder(id).setStatus(Status.CANCELLED);
 	}
 
 	public List<IOrder> sortOrderList(Comparator<IOrder> comparator) {

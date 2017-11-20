@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.senla.library.bean.IBook;
-import com.senla.library.bean.IOrderBookRelation;
+import com.senla.library.api.bean.IBook;
+import com.senla.library.api.bean.IOrderBookRelation;
 import com.senla.library.util.DateConverter;
 import com.senla.library.util.IdGenerator;
 
@@ -64,6 +64,7 @@ public class Book extends Entity implements IBook {
 		return price;
 	}
 
+	@Override
 	public String getDescription() {
 		return description;
 	}

@@ -5,55 +5,63 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import com.senla.library.bean.IBook;
-import com.senla.library.bean.IOrder;
-import com.senla.library.bean.IOrderBookRelation;
-import com.senla.library.bean.IRequest;
-import com.senla.library.comparator.book.BookByOnStockComparator;
-import com.senla.library.comparator.book.BookByPriceComparator;
-import com.senla.library.comparator.book.BookByPublicationDateComparator;
-import com.senla.library.comparator.book.BookByQuery;
-import com.senla.library.comparator.book.BookByTitleComparator;
-import com.senla.library.comparator.order.OrderByDateComparator;
-import com.senla.library.comparator.order.OrderByPriceComparator;
-import com.senla.library.comparator.order.OrderByStatusComparator;
-import com.senla.library.enums.SortBookQueryType;
-import com.senla.library.enums.SortBookType;
-import com.senla.library.enums.SortOrderType;
-import com.senla.library.enums.Status;
+import com.senla.library.api.bean.IBook;
+import com.senla.library.api.bean.IOrder;
+import com.senla.library.api.bean.IOrderBookRelation;
+import com.senla.library.api.bean.IRequest;
+import com.senla.library.api.bean.Status;
+import com.senla.library.api.comparator.book.BookByOnStockComparator;
+import com.senla.library.api.comparator.book.BookByPriceComparator;
+import com.senla.library.api.comparator.book.BookByPublicationDateComparator;
+import com.senla.library.api.comparator.book.BookByQuery;
+import com.senla.library.api.comparator.book.BookByTitleComparator;
+import com.senla.library.api.comparator.book.SortBookQueryType;
+import com.senla.library.api.comparator.book.SortBookType;
+import com.senla.library.api.comparator.order.OrderByDateComparator;
+import com.senla.library.api.comparator.order.OrderByPriceComparator;
+import com.senla.library.api.comparator.order.OrderByStatusComparator;
+import com.senla.library.api.comparator.order.SortOrderType;
+import com.senla.library.api.exception.NoSuchIdException;
+import com.senla.library.api.facade.ExecutionType;
+import com.senla.library.api.facade.ILibraryManager;
 import com.senla.library.manager.BookManager;
 import com.senla.library.manager.OrderBookManager;
 import com.senla.library.manager.OrderManager;
 import com.senla.library.manager.RequestManager;
 
 public class LibraryManager implements ILibraryManager {
-
-	private final static String[] FILE_PATH_DEFAULT = { "data/book.txt", "data/order.txt", "data/request.txt",
-			"data/relation.txt" };
+	
+	private static ILibraryManager instance;
 	private BookManager bookManager;
 	private OrderManager orderManager;
 	private RequestManager requestManager;
 	private OrderBookManager orderBookManager;
 
-	public LibraryManager(String[] filePath) {
-		if (filePath.length == 0)
-			filePath = FILE_PATH_DEFAULT;
-		bookManager = new BookManager(filePath[0]);
-		orderManager = new OrderManager(filePath[1]);
-		requestManager = new RequestManager(filePath[2]);
-		orderBookManager = new OrderBookManager(filePath[3]);
+	private LibraryManager() throws NoSuchIdException {		
+		bookManager = new BookManager();
+		orderManager = new OrderManager();
+		requestManager = new RequestManager();
+		orderBookManager = new OrderBookManager();
 		refreshRelation();
 	}
 
-	public void addBook(IBook book) {
+	public static ILibraryManager getInstance() throws NoSuchIdException {
+		if (instance == null)
+			instance = new LibraryManager();
+		return instance;
+	}
+	
+	public ExecutionType addBook(IBook book) throws NoSuchIdException {
 		bookManager.addBook(book);
 		IRequest request = requestManager.getRequest(book.getRequestId());
 		if (request != null)
 			requestManager.completeRequest(request);
+		return ExecutionType.SUCCESS;
 	}
 
-	public void writeOffBook(int bookId) {
+	public ExecutionType writeOffBook(int bookId) throws NoSuchIdException {
 		bookManager.writeOffBook(bookId);
+		return ExecutionType.SUCCESS;
 	}
 
 	public List<IBook> showBooks(SortBookType type) {
@@ -82,7 +90,7 @@ public class LibraryManager implements ILibraryManager {
 		}
 	}
 
-	public List<IBook> showUnsoldBooks() {
+	public List<IBook> showUnsoldBooks() throws NoSuchIdException {
 		List<IBook> unsoldBooks = new ArrayList<>();
 		Calendar calendar = Calendar.getInstance();
 		calendar.add(Calendar.MONTH, -6);
@@ -94,42 +102,47 @@ public class LibraryManager implements ILibraryManager {
 		return unsoldBooks;
 	}
 
-	public String showBookDescription(int bookId) {
-		return bookManager.getBook(bookId).toString();
+	public String showBookDescription(int bookId) throws NoSuchIdException {
+		return bookManager.getBook(bookId).getDescription();
 	}
 
-	public void addOrder(IOrder order) {
+	public ExecutionType addOrder(IOrder order) {
 		orderManager.addOrder(order);
+		return ExecutionType.SUCCESS;
 	}
 
-	public void addBookToOrder(int orderId, int bookId) {		
+	public ExecutionType addBookToOrder(int orderId, int bookId) throws NoSuchIdException {		
 		createRelation(orderBookManager.addOrderBookRelation(orderId, bookId));
+		return ExecutionType.SUCCESS;
 	}
 
-	private void refreshRelation() {
+	private void refreshRelation() throws NoSuchIdException {
 		for (IOrderBookRelation relation : orderBookManager.getRelations())
 			if (relation != null)
 				createRelation(relation);
 	}
 
-	private void createRelation(IOrderBookRelation relation) {
+	private void createRelation(IOrderBookRelation relation) throws NoSuchIdException {
 		orderManager.addOrderBookRelation(relation, bookManager.getBook(relation.getBookId()).getPrice());
 		bookManager.addOrderBookRelation(relation);
 	}
 
-	public void completeOrder(int orderId) {
+	public ExecutionType completeOrder(int orderId) throws NoSuchIdException {
 		List<IOrderBookRelation> relations = orderManager.getOrder(orderId).getOrderBookList();
 		if (bookManager.isBookOnStock(relations)) {
 			orderManager.completeOrder(orderId);
 			bookManager.writeOffBook(relations);
+			return ExecutionType.SUCCESS;
 		}
+		else return ExecutionType.ERROR; 
 	}
 
-	public void cancelOrder(IOrder order) {
-		orderManager.cancelOrder(order);
+	public ExecutionType cancelOrder(int id) throws NoSuchIdException {
+		orderManager.cancelOrder(id);
+		return ExecutionType.SUCCESS;
 	}
 
-	public String showOrderDetails(int orderId) {
+	public String showOrderDetails(int orderId) throws NoSuchIdException {
 		IOrder order = orderManager.getOrder(orderId);
 		return order.toString() + order.getOrderBookList();
 	}
@@ -148,7 +161,6 @@ public class LibraryManager implements ILibraryManager {
 		return orders;
 	}
 		
-
 	private List<IOrder> sortOrder(SortOrderType type) {
 		switch (type) {
 		case BY_EXECUTION_DATE:
@@ -170,15 +182,17 @@ public class LibraryManager implements ILibraryManager {
 		return orderManager.getTotalIncome(dateBefore, dateAfter);
 	}
 
-	public void addRequest(IRequest request) {
+	public ExecutionType addRequest(IRequest request) throws NoSuchIdException {
 		requestManager.addRequest(request);
 		bookManager.setRequest(request);
+		return ExecutionType.SUCCESS;
 	}
 
-	public void exitProgram() {
+	public ExecutionType exitProgram() {
 		bookManager.save();
 		orderManager.save();
 		requestManager.save();
 		orderBookManager.save();
+		return ExecutionType.SUCCESS;
 	}
 }

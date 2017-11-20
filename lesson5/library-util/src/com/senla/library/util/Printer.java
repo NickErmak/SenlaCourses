@@ -3,11 +3,13 @@ package com.senla.library.util;
 import java.io.IOException;
 import java.util.List;
 
-import com.senla.library.bean.IBook;
-import com.senla.library.bean.IEntity;
-import com.senla.library.ui.IMenu;
-import com.senla.library.ui.IMenuItem;
-import com.senla.library.ui.IResponse;
+import com.senla.library.api.bean.IBook;
+import com.senla.library.api.bean.IEntity;
+import com.senla.library.api.transmitter.query.IQuery;
+import com.senla.library.api.transmitter.response.IResponse;
+import com.senla.library.api.ui.ConsoleMessage;
+import com.senla.library.api.ui.menu.IMenu;
+import com.senla.library.api.ui.menu.IMenuItem;
 
 public class Printer {
 
@@ -30,21 +32,33 @@ public class Printer {
 			print(book.getTitle() + " - " + book.getOrderBookList().size() + " pcs ");
 	}
 
-	public static void print(IMenu menu) {
+	public static void print(IMenu menu, ConsoleMessage consoleMessage) {
 		resetScreen();
-		System.out.println("Library Manager");
-		System.out.println(menu.getName());
-		IMenuItem[] menuItem = menu.getMenuItems();
-		for (int i = 1; i <= menuItem.length; i++)
-			System.out.println(i + ". " + menuItem[i - 1]);
+		print(consoleMessage.toString());
+		print(ConsoleMessage.PROGRAM_TITLE.toString());
+		print(ConsoleMessage.DIVIDER.toString());
+		print(menu.getName());
+		List<IMenuItem> menuItem = menu.getMenuItems();
+		for (int i = 1; i <= menuItem.size(); i++)
+			print(i + ". " + menuItem.get(i - 1) + ";");
+		if (!consoleMessage.equals(ConsoleMessage.START))
+			print(ConsoleMessage.RETURN_ITEM.toString());
 	}
 
 	public static void print(IResponse response) {
-		System.out.println(response);
-		if (response.getList() != null)
-			for (IEntity entity : response.getList()) {
-				System.out.println(entity);
+		resetScreen();
+		print(response.toString());
+		if (response.getEntities() != null)
+			for (IEntity entity : response.getEntities()) {
+				print(entity);
 			}
+		if (!response.isExit())
+			print(ConsoleMessage.RETURN_ITEM.toString());
+	}
+	
+	public static void print(IQuery query) {
+		resetScreen();
+		print(query.toString());
 	}
 
 	private static void resetScreen() {
