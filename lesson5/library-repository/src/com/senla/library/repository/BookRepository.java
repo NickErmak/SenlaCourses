@@ -4,19 +4,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.danco.training.TextFileWorker;
-import com.senla.library.bean.IBook;
+import com.senla.library.api.bean.IBook;
+import com.senla.library.api.exception.NoSuchIdException;
+import com.senla.library.api.repository.IBookRepository;
 import com.senla.library.entity.Book;
 import com.senla.library.util.ArrayHandler;
 
 public class BookRepository implements IBookRepository{
 	
+	private static BookRepository instance;
+	private static final String FILE_PATH = "data/book.txt";
 	private TextFileWorker textFileWorker;
 	private List<IBook> bookList;
 
-	public BookRepository(String filePath) {
-		textFileWorker = new TextFileWorker(filePath);
+	private BookRepository() {
+		textFileWorker = new TextFileWorker(FILE_PATH);
 		bookList = new ArrayList<>();		
 		readData();
+	}
+	
+	public static BookRepository getInstance() throws NoSuchIdException {
+		if (instance == null)
+			instance = new BookRepository();
+		return instance;
 	}
 
 	@Override
@@ -24,7 +34,7 @@ public class BookRepository implements IBookRepository{
 		bookList.add(book);
 	}
 
-	public IBook getBook(int id) {
+	public IBook getBook(int id) throws NoSuchIdException {
 		return ArrayHandler.getElementById(id, bookList);
 	}
 

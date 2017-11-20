@@ -2,15 +2,16 @@ package com.senla.library.manager;
 
 import java.util.List;
 
-import com.senla.library.bean.IOrderBookRelation;
+import com.senla.library.api.bean.IOrderBookRelation;
+import com.senla.library.api.exception.NoSuchIdException;
 import com.senla.library.repository.OrderBookRepository;
 
 public class OrderBookManager {
 
 	private final OrderBookRepository orderBookRepository;
 
-	public OrderBookManager(String filePath) {
-		orderBookRepository = new OrderBookRepository(filePath);
+	public OrderBookManager() throws NoSuchIdException {
+		orderBookRepository = OrderBookRepository.getInstance();
 	}
 
 	public List<IOrderBookRelation> getRelations() {

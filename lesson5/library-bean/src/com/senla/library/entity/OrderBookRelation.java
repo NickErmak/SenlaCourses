@@ -1,6 +1,6 @@
 package com.senla.library.entity;
 
-import com.senla.library.bean.IOrderBookRelation;
+import com.senla.library.api.bean.IOrderBookRelation;
 
 public class OrderBookRelation extends Entity implements IOrderBookRelation{
 	

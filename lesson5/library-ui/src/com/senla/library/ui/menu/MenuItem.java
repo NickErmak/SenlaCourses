@@ -1,16 +1,17 @@
 package com.senla.library.ui.menu;
 
-import com.senla.library.ui.IAction;
-import com.senla.library.ui.IMenuItem;
-import com.senla.library.ui.IQuery;
+import com.senla.library.api.transmitter.query.IQuery;
+import com.senla.library.api.ui.IAction;
+import com.senla.library.api.ui.menu.IMenu;
+import com.senla.library.api.ui.menu.IMenuItem;
 
 public class MenuItem implements IMenuItem{
 
 	private String title;
-	private Menu nextMenu;
+	private IMenu nextMenu;
 	private IAction action;
 
-	public MenuItem(String title, Menu nextMenu, IAction action) {
+	public MenuItem(String title, IMenu nextMenu, IAction action) {
 		this.title = title;
 		this.nextMenu = nextMenu;
 		this.action = action;
@@ -23,7 +24,7 @@ public class MenuItem implements IMenuItem{
 			return null;
 	}
 
-	public Menu getNextMenu() {
+	public IMenu getNextMenu() {
 		return nextMenu;
 	}
 
