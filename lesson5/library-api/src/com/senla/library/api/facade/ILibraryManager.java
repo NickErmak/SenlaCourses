@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.senla.library.api.bean.IBook;
 import com.senla.library.api.bean.IOrder;
+import com.senla.library.api.bean.IOrderBookRelation;
 import com.senla.library.api.bean.IRequest;
 import com.senla.library.api.comparator.book.SortBookQueryType;
 import com.senla.library.api.comparator.book.SortBookType;
@@ -20,7 +21,7 @@ public interface ILibraryManager {
 	public List<IBook> showUnsoldBooks() throws NoSuchIdException;
 	public String showBookDescription(int bookId) throws NoSuchIdException;
 	public ExecutionType addOrder(IOrder order);
-	public ExecutionType addBookToOrder(int id, int BookId) throws NoSuchIdException;
+	public ExecutionType addBookToOrder(IOrderBookRelation relation) throws NoSuchIdException;
 	public ExecutionType completeOrder(int id) throws NoSuchIdException;
 	public ExecutionType cancelOrder(int id) throws NoSuchIdException;
 	public String showOrderDetails(int orderId) throws NoSuchIdException;
@@ -30,5 +31,5 @@ public interface ILibraryManager {
 	public int showCompletedOrderQuantity(Date dateBefore, Date dateAfter);
 	public ExecutionType addRequest(IRequest request) throws NoSuchIdException;
 	public ExecutionType exitProgram();
-		
+	public ExecutionType cloneOrder(int id) throws CloneNotSupportedException, NoSuchIdException ;	
 }

@@ -14,7 +14,7 @@ public class BookManager {
 
 	private final BookRepository bookRepository;
 
-	public BookManager() throws NoSuchIdException {
+	public BookManager() {		
 		bookRepository = BookRepository.getInstance();
 	}
 

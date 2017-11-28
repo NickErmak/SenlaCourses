@@ -1,6 +1,7 @@
 package com.senla.library.ui.action.request;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import com.senla.library.api.transmitter.query.QueryInputMessage;
 import com.senla.library.api.transmitter.response.ResponseRequestMessage;
@@ -13,7 +14,7 @@ public class RequestAddAction implements IAction{
 	
 	@Override
 	public Query execute() {
-		HashMap<String, Object> actionInfo = new HashMap<>();		
+		Map<String, Object> actionInfo = new HashMap<>();		
 		actionInfo.put("type", MainMenuType.REQUEST);
 		actionInfo.put("requestType", RequestMenuType.ADD);	
 		actionInfo.put("message", ResponseRequestMessage.ADD);

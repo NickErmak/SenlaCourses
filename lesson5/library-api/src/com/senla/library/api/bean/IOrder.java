@@ -11,4 +11,5 @@ public interface IOrder extends IEntity {
 	public Status getStatus();
 	public void setStatus(Status status);
 	public Date getDate();
+	public Object clone() throws CloneNotSupportedException;
 }

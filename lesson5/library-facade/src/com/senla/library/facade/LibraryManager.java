@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import com.senla.library.api.bean.IBook;
 import com.senla.library.api.bean.IOrder;
@@ -21,11 +22,12 @@ import com.senla.library.api.comparator.order.OrderByDateComparator;
 import com.senla.library.api.comparator.order.OrderByPriceComparator;
 import com.senla.library.api.comparator.order.OrderByStatusComparator;
 import com.senla.library.api.comparator.order.SortOrderType;
+import com.senla.library.api.config.PropertyType;
 import com.senla.library.api.exception.NoSuchIdException;
 import com.senla.library.api.facade.ExecutionType;
 import com.senla.library.api.facade.ILibraryManager;
+import com.senla.library.config.reader.PropertyReader;
 import com.senla.library.manager.BookManager;
-import com.senla.library.manager.OrderBookManager;
 import com.senla.library.manager.OrderManager;
 import com.senla.library.manager.RequestManager;
 
@@ -35,27 +37,30 @@ public class LibraryManager implements ILibraryManager {
 	private BookManager bookManager;
 	private OrderManager orderManager;
 	private RequestManager requestManager;
-	private OrderBookManager orderBookManager;
+	private Map<PropertyType, String> properties;
 
-	private LibraryManager() throws NoSuchIdException {		
-		bookManager = new BookManager();
-		orderManager = new OrderManager();
-		requestManager = new RequestManager();
-		orderBookManager = new OrderBookManager();
-		refreshRelation();
-	}
-
-	public static ILibraryManager getInstance() throws NoSuchIdException {
+	public static ILibraryManager getInstance() {		
 		if (instance == null)
 			instance = new LibraryManager();
 		return instance;
 	}
-	
+
+	private LibraryManager() {	
+		reloadProperties();
+		bookManager = new BookManager();
+		orderManager = new OrderManager();
+		requestManager = new RequestManager();
+	}
+
 	public ExecutionType addBook(IBook book) throws NoSuchIdException {
+		reloadProperties();
+		boolean autoCompleteRequest = Boolean.valueOf(properties.get(PropertyType.autoCompleteRequest));
 		bookManager.addBook(book);
-		IRequest request = requestManager.getRequest(book.getRequestId());
-		if (request != null)
-			requestManager.completeRequest(request);
+		if (book.getRequestId() != null) {
+			IRequest request = requestManager.getRequest(book.getRequestId());
+			if (autoCompleteRequest)
+				requestManager.completeRequest(request);
+		}
 		return ExecutionType.SUCCESS;
 	}
 
@@ -91,12 +96,14 @@ public class LibraryManager implements ILibraryManager {
 	}
 
 	public List<IBook> showUnsoldBooks() throws NoSuchIdException {
+		reloadProperties();
+		int unsoldMonth = Integer.valueOf(properties.get(PropertyType.unsoldMonth));
 		List<IBook> unsoldBooks = new ArrayList<>();
 		Calendar calendar = Calendar.getInstance();
-		calendar.add(Calendar.MONTH, -6);
+		calendar.add(Calendar.MONTH, unsoldMonth);
 		for (IBook book : bookManager.getBooks()) {
-			IRequest request = requestManager.getRequest(book.getRequestId());
-			if (request != null && request.getDate() != null && request.getDate().before(calendar.getTime()))
+			Integer requestId = book.getRequestId();
+			if (requestId != null && requestManager.getRequest(requestId).getDate().before(calendar.getTime()))
 				unsoldBooks.add(book);
 		}
 		return unsoldBooks;
@@ -111,20 +118,10 @@ public class LibraryManager implements ILibraryManager {
 		return ExecutionType.SUCCESS;
 	}
 
-	public ExecutionType addBookToOrder(int orderId, int bookId) throws NoSuchIdException {		
-		createRelation(orderBookManager.addOrderBookRelation(orderId, bookId));
-		return ExecutionType.SUCCESS;
-	}
-
-	private void refreshRelation() throws NoSuchIdException {
-		for (IOrderBookRelation relation : orderBookManager.getRelations())
-			if (relation != null)
-				createRelation(relation);
-	}
-
-	private void createRelation(IOrderBookRelation relation) throws NoSuchIdException {
+	public ExecutionType addBookToOrder(IOrderBookRelation relation) throws NoSuchIdException {
 		orderManager.addOrderBookRelation(relation, bookManager.getBook(relation.getBookId()).getPrice());
 		bookManager.addOrderBookRelation(relation);
+		return ExecutionType.SUCCESS;
 	}
 
 	public ExecutionType completeOrder(int orderId) throws NoSuchIdException {
@@ -133,8 +130,8 @@ public class LibraryManager implements ILibraryManager {
 			orderManager.completeOrder(orderId);
 			bookManager.writeOffBook(relations);
 			return ExecutionType.SUCCESS;
-		}
-		else return ExecutionType.ERROR; 
+		} else
+			return ExecutionType.ERROR;
 	}
 
 	public ExecutionType cancelOrder(int id) throws NoSuchIdException {
@@ -148,30 +145,34 @@ public class LibraryManager implements ILibraryManager {
 	}
 
 	public List<IOrder> showOrders(SortOrderType type) {
-		return sortOrder(type);		
+		return sortOrder(type);
 	}
 
 	public List<IOrder> showOrders(Date dateAfter, Date dateBefore, SortOrderType type) {
 		List<IOrder> orders = new ArrayList<>();
-			for (IOrder order : sortOrder(type)) {
-				if (order.getStatus() == Status.COMPLETED)
-					if (order.getDate().before(dateBefore) && order.getDate().after(dateAfter))
-						orders.add(order);
-			}
+		for (IOrder order : sortOrder(type)) {
+			if (order.getStatus() == Status.COMPLETED)
+				if (order.getDate().before(dateBefore) && order.getDate().after(dateAfter))
+					orders.add(order);
+		}
 		return orders;
 	}
-		
+
 	private List<IOrder> sortOrder(SortOrderType type) {
 		switch (type) {
 		case BY_EXECUTION_DATE:
-			return orderManager.sortOrderList(new OrderByDateComparator());			
+			return orderManager.sortOrderList(new OrderByDateComparator());
 		case BY_PRICE:
-			return orderManager.sortOrderList(new OrderByPriceComparator());			
+			return orderManager.sortOrderList(new OrderByPriceComparator());
 		case BY_STATUS:
 			return orderManager.sortOrderList(new OrderByStatusComparator());
 		default:
 			return null;
 		}
+	}
+	
+	public ExecutionType cloneOrder(int id) throws CloneNotSupportedException, NoSuchIdException {
+		return orderManager.cloneOrder(id);
 	}
 
 	public int showCompletedOrderQuantity(Date dateBefore, Date dateAfter) {
@@ -188,11 +189,14 @@ public class LibraryManager implements ILibraryManager {
 		return ExecutionType.SUCCESS;
 	}
 
+	public void reloadProperties() {
+		properties = PropertyReader.getInstance().load();
+	}
+
 	public ExecutionType exitProgram() {
 		bookManager.save();
 		orderManager.save();
 		requestManager.save();
-		orderBookManager.save();
 		return ExecutionType.SUCCESS;
 	}
 }

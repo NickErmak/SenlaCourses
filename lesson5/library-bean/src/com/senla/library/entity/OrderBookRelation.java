@@ -4,6 +4,7 @@ import com.senla.library.api.bean.IOrderBookRelation;
 
 public class OrderBookRelation extends Entity implements IOrderBookRelation{
 	
+	private static final long serialVersionUID = -8295995103629543259L;
 	private int orderId;
 	private int bookId;
 	

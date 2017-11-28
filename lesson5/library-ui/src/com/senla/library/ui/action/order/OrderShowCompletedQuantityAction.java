@@ -1,6 +1,7 @@
 package com.senla.library.ui.action.order;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import com.senla.library.api.transmitter.query.QueryInputMessage;
 import com.senla.library.api.transmitter.response.ResponseOrderMessage;
@@ -13,7 +14,7 @@ public class OrderShowCompletedQuantityAction implements IAction {
 
 	@Override
 	public Query execute() {
-		HashMap<String, Object> actionInfo = new HashMap<>();
+		Map<String, Object> actionInfo = new HashMap<>();
 		actionInfo.put("type", MainMenuType.ORDER);
 		actionInfo.put("orderType", OrderMenuType.SHOW_COMPLETED_QUANTITY);
 		actionInfo.put("message", ResponseOrderMessage.ORDER_COMPLETED_QUANTITY);

@@ -9,12 +9,11 @@ import com.senla.library.util.IdGenerator;
 
 public class Request extends Entity implements IRequest{
 	
+	private static final long serialVersionUID = 6561901578226972677L;
 	private int id;
 	private Date date;
 	private int bookId;
 	private Status status;
-	
-	public Request() {}
 	
 	public Request(int bookId) {
 		id = IdGenerator.generateId() + IdGenerator.REQUEST_ID_LAST_DIGIT;		
@@ -22,14 +21,7 @@ public class Request extends Entity implements IRequest{
 		status = Status.PROCESSING;
 		date = null;
 	}
-	
-	public Request(String[] data) {
-		id = Integer.valueOf(data[0]);
-		date = DateConverter.stringToDate(data[1]);
-		bookId = Integer.valueOf(data[2]);
-		status = Status.getStatus(data[3]);	
-	}
-	
+		
 	@Override
 	public int getId() {
 		return id;
@@ -57,11 +49,13 @@ public class Request extends Entity implements IRequest{
 
 	public Status getStatus() {
 		return status;
-	}	
-	
+	}
+
 	@Override
 	public String toString() {
-		return id + "  " + DateConverter.dateToString(date) + "  " + bookId + "  " + status;
+		return "Request [id=" + id + ", date=" + DateConverter.dateToString(date) + ", bookId=" + bookId + ", status=" + status + "]";
 	}	
+	
+	
 			
 }

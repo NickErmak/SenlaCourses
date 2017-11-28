@@ -1,6 +1,7 @@
 package com.senla.library.ui.action.total;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import com.senla.library.api.transmitter.query.QueryInputMessage;
 import com.senla.library.api.transmitter.response.ResponseMessage;
@@ -13,7 +14,7 @@ public class TotalShowIncomeAction implements IAction{
 
 	@Override
 	public Query execute() {
-		HashMap<String, Object> actionInfo = new HashMap<>();		
+		Map<String, Object> actionInfo = new HashMap<>();		
 		actionInfo.put("type", MainMenuType.TOTAL);
 		actionInfo.put("totalType", TotalMenuType.SHOW_TOTAL_INCOME);	
 		actionInfo.put("message", ResponseMessage.TOTAL_SHOW_INCOME);

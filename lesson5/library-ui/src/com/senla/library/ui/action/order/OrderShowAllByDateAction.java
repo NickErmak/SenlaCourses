@@ -1,6 +1,7 @@
 package com.senla.library.ui.action.order;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import com.senla.library.api.comparator.order.SortOrderType;
 import com.senla.library.api.transmitter.response.ResponseOrderMessage;
@@ -13,7 +14,7 @@ public class OrderShowAllByDateAction implements IAction{
 	
 	@Override
 	public Query execute() {
-		HashMap<String, Object> actionInfo = new HashMap<>();		
+		Map<String, Object> actionInfo = new HashMap<>();		
 		actionInfo.put("type", MainMenuType.ORDER);
 		actionInfo.put("orderType", OrderMenuType.SHOW_ALL);
 		actionInfo.put("orderSortType", SortOrderType.BY_EXECUTION_DATE);

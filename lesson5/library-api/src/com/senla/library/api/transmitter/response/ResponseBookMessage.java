@@ -9,7 +9,7 @@ public enum ResponseBookMessage {
 	SHOW_ALL_BY_PRICE("Books sorted by price:"),
 	SHOW_ALL_BY_STOCK("Books sorted by stock:"),
 	WRITE_OFF("Write off operation status: "),
-	UNSOLD_BOOKS("Unsold books for 6 months:");
+	UNSOLD_BOOKS("Unsold books:");
 	
 	String message;
 

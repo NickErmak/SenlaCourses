@@ -1,6 +1,7 @@
 package com.senla.library.ui.action.order;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import com.senla.library.api.transmitter.query.QueryInputMessage;
 import com.senla.library.api.transmitter.response.ResponseOrderMessage;
@@ -13,7 +14,7 @@ public class OrderAddBookAction implements IAction {
 
 	@Override
 	public Query execute() {
-		HashMap<String, Object> actionInfo = new HashMap<>();
+		Map<String, Object> actionInfo = new HashMap<>();
 		actionInfo.put("type", MainMenuType.ORDER);
 		actionInfo.put("orderType", OrderMenuType.ADD_BOOK_TO_ORDER);
 		actionInfo.put("message", ResponseOrderMessage.ADD_BOOK);

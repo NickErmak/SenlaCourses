@@ -6,5 +6,5 @@ import com.senla.library.api.transmitter.response.IResponse;
 
 public interface ITransmitter {
 	
-	public IResponse sendQuery(IQuery query) throws NoSuchIdException;
+	public IResponse sendQuery(IQuery query) throws NoSuchIdException, CloneNotSupportedException;
 }

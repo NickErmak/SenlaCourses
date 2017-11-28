@@ -7,6 +7,7 @@ public enum ConsoleMessage {
 	ERROR_INCORRECT_INPUT ("Incorrect input. Please repeat!"),
 	ERROR_NO_SUCH_ITEM ("No such number. Please make your choise again!"),
 	ERROR_NO_SUCH_ID ("ID doesn't exist!"),
+	ERROR_NO_CLONEABLE ("Can't clone order!"),
 	PROGRAM_TITLE ("Library Manager"),
 	DIVIDER ("===================================="),
 	RETURN_ITEM ("0. return;");

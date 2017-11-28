@@ -1,0 +1,75 @@
+ERROR   2017-11-27 18:35:39,799 [main] com.senla.library.ui.Builder  - NoSuchIdException [id=1324]
+DEBUG   2017-11-27 19:08:20,804 [main] com.senla.library.facade.LibraryManager  - create library
+ERROR   2017-11-27 20:50:20,540 [main] com.senla.library.ui.Builder  - NoSuchIdException [id=14]
+ERROR   2017-11-27 22:04:44,695 [main] com.senla.library.ui.Builder  - NoSuchIdException [id=124]
+ERROR   2017-11-27 23:20:47,532 [main] com.senla.library.util.FileWorker  - [Ljava.lang.StackTraceElement;@52cc8049
+ERROR   2017-11-27 23:20:47,540 [main] com.senla.library.util.FileWorker  - [Ljava.lang.StackTraceElement;@27973e9b
+ERROR   2017-11-27 23:20:47,546 [main] com.senla.library.util.FileWorker  - [Ljava.lang.StackTraceElement;@7530d0a
+ERROR   2017-11-27 23:21:02,191 [main] com.senla.library.util.FileWorker  - [Ljava.lang.StackTraceElement;@52cc8049
+ERROR   2017-11-27 23:21:02,198 [main] com.senla.library.util.FileWorker  - [Ljava.lang.StackTraceElement;@5b6f7412
+ERROR   2017-11-27 23:21:02,201 [main] com.senla.library.util.FileWorker  - [Ljava.lang.StackTraceElement;@27973e9b
+ERROR   2017-11-27 23:22:03,933 [main] com.senla.library.util.FileWorker  - data\book.ser (Системе не удается найти указанный путь)
+ERROR   2017-11-27 23:22:03,939 [main] com.senla.library.util.FileWorker  - data\order.ser (Системе не удается найти указанный путь)
+ERROR   2017-11-27 23:22:03,942 [main] com.senla.library.util.FileWorker  - data\request.ser (Системе не удается найти указанный путь)
+ERROR   2017-11-27 23:35:54,597 [main] com.senla.library.util.FileWorker  - data\book.ser (Системе не удается найти указанный путь)
+ERROR   2017-11-27 23:35:54,603 [main] com.senla.library.util.FileWorker  - data\order.ser (Системе не удается найти указанный путь)
+ERROR   2017-11-27 23:35:54,608 [main] com.senla.library.util.FileWorker  - data\request.ser (Системе не удается найти указанный путь)
+ERROR   2017-11-27 23:43:28,167 [main] com.senla.library.util.FileWorker  - data\book.ser (Системе не удается найти указанный путь)
+ERROR   2017-11-27 23:43:28,173 [main] com.senla.library.util.FileWorker  - data\order.ser (Системе не удается найти указанный путь)
+ERROR   2017-11-27 23:43:28,176 [main] com.senla.library.util.FileWorker  - data\request.ser (Системе не удается найти указанный путь)
+ERROR   2017-11-28 00:02:20,713 [main] com.senla.library.ui.Builder  - java.lang.ArrayIndexOutOfBoundsException: 1
+ERROR   2017-11-28 00:02:20,744 [main] com.senla.library.ui.Builder  - java.util.InputMismatchException
+ERROR   2017-11-28 05:28:00,897 [main] com.senla.library.ui.Builder  - NoSuchIdException [id=null]
+ERROR   2017-11-28 06:05:28,697 [main] com.senla.library.ui.Builder  - java.lang.ArrayIndexOutOfBoundsException: 1
+ERROR   2017-11-28 06:05:28,758 [main] com.senla.library.ui.Builder  - java.util.InputMismatchException
+ERROR   2017-11-28 06:08:17,898 [main] com.senla.library.ui.Builder  - java.lang.ArrayIndexOutOfBoundsException: 1
+ERROR   2017-11-28 06:08:26,788 [main] com.senla.library.ui.Builder  - java.lang.ArrayIndexOutOfBoundsException: 1
+ERROR   2017-11-28 06:28:41,387 [main] com.senla.library.util.FileWorker  - 
+ERROR   2017-11-28 06:28:41,393 [main] com.senla.library.util.FileWorker  - 
+ERROR   2017-11-28 06:28:41,396 [main] com.senla.library.util.FileWorker  - 
+ERROR   2017-11-28 06:29:23,320 [main] com.senla.library.ui.Builder  - java.lang.ArrayIndexOutOfBoundsException: 1
+ERROR   2017-11-28 06:30:20,468 [main] com.senla.library.util.FileWorker  - 
+ERROR   2017-11-28 06:30:20,473 [main] com.senla.library.util.FileWorker  - 
+ERROR   2017-11-28 06:30:20,476 [main] com.senla.library.util.FileWorker  - 
+ERROR   2017-11-28 06:30:22,775 [main] com.senla.library.ui.Builder  - java.lang.ArrayIndexOutOfBoundsException: 1
+ERROR   2017-11-28 06:30:43,030 [main] com.senla.library.util.FileWorker  - 
+ERROR   2017-11-28 06:30:43,035 [main] com.senla.library.util.FileWorker  - 
+ERROR   2017-11-28 06:30:43,038 [main] com.senla.library.util.FileWorker  - 
+ERROR   2017-11-28 06:30:48,590 [main] com.senla.library.ui.Builder  - java.lang.ArrayIndexOutOfBoundsException: 1
+ERROR   2017-11-28 06:31:06,728 [main] com.senla.library.util.FileWorker  - 
+ERROR   2017-11-28 06:31:06,734 [main] com.senla.library.util.FileWorker  - 
+ERROR   2017-11-28 06:31:06,737 [main] com.senla.library.util.FileWorker  - 
+ERROR   2017-11-28 06:32:22,272 [main] com.senla.library.util.FileWorker  - 
+ERROR   2017-11-28 06:32:22,277 [main] com.senla.library.util.FileWorker  - 
+ERROR   2017-11-28 06:32:22,280 [main] com.senla.library.util.FileWorker  - 
+ERROR   2017-11-28 06:32:31,176 [main] com.senla.library.ui.Builder  - java.lang.ArrayIndexOutOfBoundsException: 1
+ERROR   2017-11-28 06:32:49,482 [main] com.senla.library.ui.Builder  - java.lang.ArrayIndexOutOfBoundsException: 1
+ERROR   2017-11-28 06:32:49,509 [main] com.senla.library.ui.Builder  - java.util.InputMismatchException
+ERROR   2017-11-28 06:33:31,759 [main] com.senla.library.util.FileWorker  - 
+ERROR   2017-11-28 06:33:31,766 [main] com.senla.library.util.FileWorker  - 
+ERROR   2017-11-28 06:33:31,769 [main] com.senla.library.util.FileWorker  - 
+ERROR   2017-11-28 06:33:36,710 [main] com.senla.library.ui.Builder  - java.lang.ArrayIndexOutOfBoundsException: 1
+ERROR   2017-11-28 06:33:40,345 [main] com.senla.library.ui.Builder  - java.lang.ArrayIndexOutOfBoundsException: 1
+ERROR   2017-11-28 06:36:58,073 [main] com.senla.library.util.FileWorker  - 
+ERROR   2017-11-28 06:36:58,079 [main] com.senla.library.util.FileWorker  - 
+ERROR   2017-11-28 06:36:58,082 [main] com.senla.library.util.FileWorker  - 
+ERROR   2017-11-28 06:37:00,623 [main] com.senla.library.ui.Builder  - java.lang.ArrayIndexOutOfBoundsException: 1
+ERROR   2017-11-28 06:39:23,388 [main] com.senla.library.util.FileWorker  - 
+ERROR   2017-11-28 06:39:23,394 [main] com.senla.library.util.FileWorker  - 
+ERROR   2017-11-28 06:39:23,398 [main] com.senla.library.util.FileWorker  - 
+ERROR   2017-11-28 06:42:23,343 [main] com.senla.library.ui.Builder  - java.lang.ArrayIndexOutOfBoundsException: 1
+ERROR   2017-11-28 06:45:18,306 [main] com.senla.library.util.FileWorker  - 
+ERROR   2017-11-28 06:45:18,311 [main] com.senla.library.util.FileWorker  - 
+ERROR   2017-11-28 06:45:18,314 [main] com.senla.library.util.FileWorker  - 
+ERROR   2017-11-28 06:47:38,809 [main] com.senla.library.ui.Builder  - java.lang.ArrayIndexOutOfBoundsException: 1
+ERROR   2017-11-28 06:50:29,537 [main] com.senla.library.ui.Builder  - NoSuchIdException [id=1012]
+ERROR   2017-11-28 06:51:07,054 [main] com.senla.library.ui.Builder  - NoSuchIdException [id=1012]
+ERROR   2017-11-28 06:55:28,468 [main] com.senla.library.ui.Builder  - NoSuchIdException [id=1012]
+ERROR   2017-11-28 06:56:57,003 [main] com.senla.library.util.FileWorker  - 
+ERROR   2017-11-28 06:56:57,008 [main] com.senla.library.util.FileWorker  - 
+ERROR   2017-11-28 06:56:57,012 [main] com.senla.library.util.FileWorker  - 
+ERROR   2017-11-28 06:58:54,809 [main] com.senla.library.ui.Builder  - java.lang.NumberFormatException: For input string: "dexcription4"
+ERROR   2017-11-28 06:59:53,206 [main] com.senla.library.ui.Builder  - NoSuchIdException [id=2011]
+ERROR   2017-11-28 07:26:24,207 [main] com.senla.library.ui.Builder  - java.lang.ArrayIndexOutOfBoundsException: 1
+ERROR   2017-11-28 07:27:51,296 [main] com.senla.library.ui.Builder  - NoSuchIdException [id=1022]
+ERROR   2017-11-28 07:28:42,104 [main] com.senla.library.ui.Builder  - java.lang.ArrayIndexOutOfBoundsException: 1

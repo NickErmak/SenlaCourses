@@ -12,6 +12,6 @@ public interface IBook extends IEntity{
 	public Date getPublicationDate();
 	public double getPrice();
 	public String getTitle();
-	public int getRequestId();	
+	public Integer getRequestId();	
 	public String getDescription();
 }

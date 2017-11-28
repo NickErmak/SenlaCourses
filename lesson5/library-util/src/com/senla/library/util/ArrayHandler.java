@@ -7,12 +7,11 @@ import com.senla.library.api.exception.NoSuchIdException;
 
 public class ArrayHandler {
 
-	public static <T extends IEntity> T getElementById(int id, List<T> array) throws NoSuchIdException {
+	public static <T extends IEntity> T getElementById(Integer id, List<T> array) throws NoSuchIdException {
 		for (int i = 0; i < array.size(); i++)
 			if (id == array.get(i).getId())
 				return array.get(i);
-		;		
-		throw new NoSuchIdException();
+		throw new NoSuchIdException(id);
 	}
 
 	public static String[] getStringArray(List<? extends IEntity> list) {

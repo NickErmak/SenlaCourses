@@ -9,13 +9,14 @@ import com.senla.library.api.bean.IOrder;
 import com.senla.library.api.bean.IOrderBookRelation;
 import com.senla.library.api.bean.Status;
 import com.senla.library.api.exception.NoSuchIdException;
+import com.senla.library.api.facade.ExecutionType;
 import com.senla.library.repository.OrderRepository;
 
 public class OrderManager {
 
 	private final OrderRepository orderRepository;
 
-	public OrderManager() throws NoSuchIdException {
+	public OrderManager() {
 		orderRepository = OrderRepository.getInstance();
 	}
 
@@ -66,6 +67,11 @@ public class OrderManager {
 			if (order != null && order.getStatus() == Status.COMPLETED)
 				++count;
 		return count;
+	}
+	
+	public ExecutionType cloneOrder(int id) throws CloneNotSupportedException, NoSuchIdException {
+		addOrder((IOrder) getOrder(id).clone());
+		return ExecutionType.SUCCESS;
 	}
 
 	public void save() {

@@ -14,7 +14,7 @@ import com.senla.library.api.ui.menu.IMenuItem;
 public class Printer {
 
 	public static void print(String message) {
-		System.out.println(message);
+		System.out.println(message); 
 	}
 
 	public static void print(IEntity entity) {

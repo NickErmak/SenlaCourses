@@ -1,6 +1,7 @@
 package com.senla.library.ui.action.book;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import com.senla.library.api.transmitter.query.QueryInputMessage;
 import com.senla.library.api.transmitter.response.ResponseBookMessage;
@@ -13,7 +14,7 @@ public class BookWriteOffAction implements IAction {
 	
 	@Override
 	public Query execute() {
-		HashMap<String, Object> actionInfo = new HashMap<>();
+		Map<String, Object> actionInfo = new HashMap<>();
 		actionInfo.put("type", MainMenuType.BOOK);
 		actionInfo.put("bookType", BookMenuType.WRITE_OFF);		
 		actionInfo.put("message", ResponseBookMessage.WRITE_OFF);

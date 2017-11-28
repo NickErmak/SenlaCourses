@@ -10,8 +10,9 @@ import com.senla.library.api.bean.Status;
 import com.senla.library.util.DateConverter;
 import com.senla.library.util.IdGenerator;
 
-public class Order extends Entity implements IOrder{
+public class Order extends Entity implements IOrder, Cloneable{
 
+	private static final long serialVersionUID = 8796093798515742852L;
 	private int id;
 	private String name;
 	private Date date;
@@ -19,27 +20,19 @@ public class Order extends Entity implements IOrder{
 	private Status status;
 	private List<IOrderBookRelation> orderBookList;
 
-	public Order() {
-		orderBookList = new ArrayList<>();
-	}
-	
 	public Order(String name) {
-		this();
+		orderBookList = new ArrayList<>();
 		id = IdGenerator.generateId() + IdGenerator.ORDER_ID_LAST_DIGIT;
 		this.name = name;
 		totalAmount = 0;
 		status = Status.PROCESSING;		
 	}
-
-	public Order(String[] data) {
-		this();
-		id = Integer.valueOf(data[0]);
-		name = data[1];
-		date = DateConverter.stringToDate(data[2]);
-		totalAmount = Double.valueOf(data[3]);
-		status = Status.getStatus(data[4]);		
+	
+	@Override
+	public Object clone() throws CloneNotSupportedException {
+		return super.clone();
 	}
-
+	
 	@Override
 	public int getId() {
 		return id;
@@ -82,11 +75,14 @@ public class Order extends Entity implements IOrder{
 
 	public String getName() {
 		return name;
-	}	
+	}
 
 	@Override
 	public String toString() {
-		return id + "  " + name + "  " + DateConverter.dateToString(date) + "  " + totalAmount + "  " + status;
-	}
+		return "Order [id=" + id + ", name=" + name + ", date=" + DateConverter.dateToString(date) + ", totalAmount=" + totalAmount + ", status="
+				+ status + ", orderBookList=" + orderBookList + "]";
+	}	
+
+	
 
 }

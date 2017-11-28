@@ -10,7 +10,8 @@ public enum ResponseOrderMessage {
 	SHOW_ALL_BY_DATE("Orders sorted by execution date:"),
 	SHOW_ALL_BY_PRICE("Orders sorted by total amount"),
 	SHOW_ALL_BY_STATUS("Order sorted by status"),
-	ORDER_COMPLETED_QUANTITY("Quantity of completed orders = ");
+	ORDER_COMPLETED_QUANTITY("Quantity of completed orders = "),
+	CLONE("Clone operation status: ");
 	
 	String message;
 

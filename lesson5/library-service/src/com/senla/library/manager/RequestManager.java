@@ -11,7 +11,7 @@ public class RequestManager {
 
 	private final RequestRepository requestRepository;
 
-	public RequestManager() throws NoSuchIdException {
+	public RequestManager() {
 		requestRepository = RequestRepository.getInstance();
 	}
 
@@ -19,7 +19,7 @@ public class RequestManager {
 		requestRepository.addRequest(request);
 	}
 
-	public IRequest getRequest(int requestId) throws NoSuchIdException {
+	public IRequest getRequest(Integer requestId) throws NoSuchIdException {
 		return requestRepository.getRequest(requestId);
 	}
 
@@ -28,7 +28,7 @@ public class RequestManager {
 		request.setDate(new Date());
 	}
 
-	public void save() {
+	public void save() {		
 		requestRepository.saveData();
 	}
 

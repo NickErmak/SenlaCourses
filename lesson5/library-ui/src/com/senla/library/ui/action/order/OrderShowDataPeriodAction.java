@@ -1,6 +1,7 @@
 package com.senla.library.ui.action.order;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import com.senla.library.api.ui.IAction;
 import com.senla.library.api.ui.menu.MainMenuType;
@@ -11,7 +12,7 @@ public class OrderShowDataPeriodAction implements IAction{
 	
 	@Override
 	public Query execute() {
-		HashMap<String, Object> actionInfo = new HashMap<>();		
+		Map<String, Object> actionInfo = new HashMap<>();		
 		actionInfo.put("type", MainMenuType.ORDER);
 		actionInfo.put("orderType", OrderMenuType.SHOW_FOR_DATE_PERIOD);		
 		return new Query(actionInfo);

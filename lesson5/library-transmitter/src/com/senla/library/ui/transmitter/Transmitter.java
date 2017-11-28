@@ -1,9 +1,10 @@
 package com.senla.library.ui.transmitter;
 
-import java.util.HashMap;
+import java.util.Map;
 
 import com.senla.library.api.bean.IBook;
 import com.senla.library.api.bean.IOrder;
+import com.senla.library.api.bean.IOrderBookRelation;
 import com.senla.library.api.bean.IRequest;
 import com.senla.library.api.comparator.book.SortBookType;
 import com.senla.library.api.comparator.order.SortOrderType;
@@ -19,6 +20,7 @@ import com.senla.library.api.ui.menu.RequestMenuType;
 import com.senla.library.api.ui.menu.TotalMenuType;
 import com.senla.library.entity.Book;
 import com.senla.library.entity.Order;
+import com.senla.library.entity.OrderBookRelation;
 import com.senla.library.entity.Request;
 import com.senla.library.facade.LibraryManager;
 import com.senla.library.util.DateConverter;
@@ -26,16 +28,7 @@ import com.senla.library.util.DateConverter;
 public class Transmitter implements ITransmitter {
 
 	private static ITransmitter instance;
-
 	private ILibraryManager libraryManager;
-
-	private Transmitter() {
-		try {
-			libraryManager = LibraryManager.getInstance();
-		} catch (NoSuchIdException e) {
-			e.printStackTrace();
-		}
-	}
 
 	public static ITransmitter getInstance() {
 		if (instance == null)
@@ -43,8 +36,12 @@ public class Transmitter implements ITransmitter {
 		return instance;
 	}
 
-	public IResponse sendQuery(IQuery query) throws NoSuchIdException {
-		HashMap<String, Object> actionInfo = query.getActionInfo();
+	private Transmitter() {
+		libraryManager = LibraryManager.getInstance();
+	}
+
+	public IResponse sendQuery(IQuery query) throws NoSuchIdException, CloneNotSupportedException {
+		Map<String, Object> actionInfo = query.getActionInfo();
 		IResponse response = new Response(actionInfo.get("message").toString());
 		switch ((MainMenuType) actionInfo.get("type")) {
 		case BOOK:
@@ -67,7 +64,7 @@ public class Transmitter implements ITransmitter {
 		return response;
 	}
 
-	private void sendBookQuery(HashMap<String, Object> actionInfo, IResponse response) throws NoSuchIdException {
+	private void sendBookQuery(Map<String, Object> actionInfo, IResponse response) throws NoSuchIdException {
 		switch ((BookMenuType) actionInfo.get("bookType")) {
 		case ADD:
 			String input[] = actionInfo.get("input").toString().split("--");
@@ -96,7 +93,7 @@ public class Transmitter implements ITransmitter {
 		}
 	}
 
-	private void sendOrderQuery(HashMap<String, Object> actionInfo, IResponse response) throws NoSuchIdException {
+	private void sendOrderQuery(Map<String, Object> actionInfo, IResponse response) throws NoSuchIdException, CloneNotSupportedException {
 		switch ((OrderMenuType) actionInfo.get("orderType")) {
 		case ADD:
 			IOrder order = new Order(actionInfo.get("input").toString());
@@ -104,8 +101,8 @@ public class Transmitter implements ITransmitter {
 			break;
 		case ADD_BOOK_TO_ORDER: {
 			String id[] = actionInfo.get("input").toString().split("--");
-			response.completeMessage(
-					libraryManager.addBookToOrder(Integer.valueOf(id[0]), Integer.valueOf(id[1])).toString());
+			IOrderBookRelation relation = new OrderBookRelation(Integer.valueOf(id[0]), Integer.valueOf(id[1]));
+			response.completeMessage(libraryManager.addBookToOrder(relation).toString());
 		}
 			break;
 		case CANCEL: {
@@ -135,10 +132,15 @@ public class Transmitter implements ITransmitter {
 			response.completeMessage(libraryManager.showOrderDetails(id).toString());
 			break;
 		}
+		case CLONE: {
+			int id = Integer.valueOf(actionInfo.get("input").toString());
+			response.completeMessage(libraryManager.cloneOrder(id).toString());
+			break;
+		}
 		}
 	}
 
-	private void sendRequestQuery(HashMap<String, Object> actionInfo, IResponse response) throws NoSuchIdException {
+	private void sendRequestQuery(Map<String, Object> actionInfo, IResponse response) throws NoSuchIdException {
 		switch ((RequestMenuType) actionInfo.get("requestType")) {
 		case ADD:
 			int id = Integer.valueOf(actionInfo.get("input").toString());
@@ -148,7 +150,7 @@ public class Transmitter implements ITransmitter {
 		}
 	}
 
-	private void sendTotalQuery(HashMap<String, Object> actionInfo, IResponse response) {
+	private void sendTotalQuery(Map<String, Object> actionInfo, IResponse response) {
 		switch ((TotalMenuType) actionInfo.get("totalType")) {
 		case SHOW_TOTAL_INCOME:
 			String input[] = actionInfo.get("input").toString().split("-");
