@@ -11,8 +11,7 @@ import org.apache.log4j.Logger;
 
 import com.senla.library.api.bean.IEntity;
 
-public class FileWorker {
-	
+public class FileWorker {	
 	private static Logger logger = Logger.getLogger(FileWorker.class);
 
 	public static Object read(String filePath) {
@@ -21,7 +20,7 @@ public class FileWorker {
 				ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream)){
 			fileData =  objectInputStream.readObject();
 		} catch (IOException | ClassNotFoundException e) {
-			logger.error(e.getMessage());			
+			logger.error(e);			
 		}		
 		return fileData;
 	}
@@ -32,8 +31,7 @@ public class FileWorker {
 			objectOutputStream.writeObject(entities);
 			objectOutputStream.flush();
 		} catch (IOException e) {
-			logger.error(e.getStackTrace());
+			logger.error(e);
 		}
 	}
-
 }

@@ -13,5 +13,4 @@ public class BookByPublicationDateComparator implements Comparator<IBook> {
 		else
 			return 0;
 	}
-
 }

@@ -19,6 +19,7 @@ public class OrderShowDetailsAction implements IAction {
 		actionInfo.put("orderType", OrderMenuType.SHOW_DETAILS);
 		actionInfo.put("message", ResponseOrderMessage.SHOW_DETAILS);
 		actionInfo.put("inputMessage", QueryInputMessage.GET_ORDER_ID);
+		actionInfo.put("inputAction", new OrderShowAllByDateAction());
 		return new Query(actionInfo);
 	}
 }

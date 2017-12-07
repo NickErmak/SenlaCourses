@@ -13,6 +13,8 @@ import com.senla.library.api.ui.menu.RequestMenuType;
 import com.senla.library.api.ui.menu.TotalMenuType;
 import com.senla.library.ui.action.ExitAction;
 import com.senla.library.ui.action.book.BookAddAction;
+import com.senla.library.ui.action.book.BookExportAction;
+import com.senla.library.ui.action.book.BookImportAction;
 import com.senla.library.ui.action.book.BookShowAllAlphabeticallyAction;
 import com.senla.library.ui.action.book.BookShowAllByDateAction;
 import com.senla.library.ui.action.book.BookShowAllByPriceAction;
@@ -26,6 +28,8 @@ import com.senla.library.ui.action.order.OrderAddBookAction;
 import com.senla.library.ui.action.order.OrderCancelAction;
 import com.senla.library.ui.action.order.OrderCloneAction;
 import com.senla.library.ui.action.order.OrderCompleteAction;
+import com.senla.library.ui.action.order.OrderExportAction;
+import com.senla.library.ui.action.order.OrderImportAction;
 import com.senla.library.ui.action.order.OrderShowAllByDateAction;
 import com.senla.library.ui.action.order.OrderShowAllByPriceAction;
 import com.senla.library.ui.action.order.OrderShowAllByStatusAction;
@@ -33,18 +37,27 @@ import com.senla.library.ui.action.order.OrderShowCompletedQuantityAction;
 import com.senla.library.ui.action.order.OrderShowDataPeriodAction;
 import com.senla.library.ui.action.order.OrderShowDetailsAction;
 import com.senla.library.ui.action.request.RequestAddAction;
+import com.senla.library.ui.action.request.RequestExportAction;
+import com.senla.library.ui.action.request.RequestImportAction;
 import com.senla.library.ui.action.total.TotalShowIncomeAction;
 import com.senla.library.ui.menu.Menu;
 import com.senla.library.ui.menu.MenuItem;
 
 public class MenuCreator {
-	
+
+	private static void addItemToMenu(IMenu menu, IMenuItem... newMenuItems) {
+		List<IMenuItem> menuItems = menu.getMenuItems();
+		for (IMenuItem menuItem : newMenuItems)
+			menuItems.add(menuItem);
+	}
+
 	public static IMenu createMenu() {
-		
-		IMenuItem sortBook1 = new MenuItem(SortBookType.ALPHABETICALLY.toString(), null, new BookShowAllAlphabeticallyAction());
+		IMenuItem sortBook1 = new MenuItem(SortBookType.ALPHABETICALLY.toString(), null,
+				new BookShowAllAlphabeticallyAction());
 		IMenuItem sortBook2 = new MenuItem(SortBookType.BY_PRICE.toString(), null, new BookShowAllByPriceAction());
-		IMenuItem sortBook3 = new MenuItem(SortBookType.BY_PUBLICATION_DATE.toString(), null, new BookShowAllByDateAction());
-		IMenuItem sortBook4 = new MenuItem(SortBookType.BY_STOCK.toString(), null, new BookShowAllByStockAction());		
+		IMenuItem sortBook3 = new MenuItem(SortBookType.BY_PUBLICATION_DATE.toString(), null,
+				new BookShowAllByDateAction());
+		IMenuItem sortBook4 = new MenuItem(SortBookType.BY_STOCK.toString(), null, new BookShowAllByStockAction());
 		IMenu menuSortBook = new Menu("Sort books by:");
 		addItemToMenu(menuSortBook, sortBook1, sortBook2, sortBook3, sortBook4);
 
@@ -54,15 +67,18 @@ public class MenuCreator {
 		IMenuItem book4 = new MenuItem(BookMenuType.SHOW_UNSOLD.toString(), null, new BookShowUnsoldAction());
 		IMenuItem book5 = new MenuItem(BookMenuType.SHOW_QUERY.toString(), null, new BookShowQueryAction());
 		IMenuItem book6 = new MenuItem(BookMenuType.SHOW_DESCRIPTION.toString(), null, new BookShowDescriptionAction());
+		IMenuItem book7 = new MenuItem(BookMenuType.EXPORT.toString(), null, new BookExportAction());
+		IMenuItem book8 = new MenuItem(BookMenuType.IMPORT.toString(), null, new BookImportAction());
 		IMenu menuBook = new Menu("Book menu:");
-		addItemToMenu(menuBook, book1, book2, book3, book4, book5, book6);
+		addItemToMenu(menuBook, book1, book2, book3, book4, book5, book6, book7, book8);
 
-		IMenuItem sortOrder1 = new MenuItem(SortOrderType.BY_EXECUTION_DATE.toString(), null, new OrderShowAllByDateAction());
+		IMenuItem sortOrder1 = new MenuItem(SortOrderType.BY_EXECUTION_DATE.toString(), null,
+				new OrderShowAllByDateAction());
 		IMenuItem sortOrder2 = new MenuItem(SortOrderType.BY_PRICE.toString(), null, new OrderShowAllByPriceAction());
-		IMenuItem sortOrder3 = new MenuItem(SortOrderType.BY_STATUS.toString(), null, new OrderShowAllByStatusAction());		
+		IMenuItem sortOrder3 = new MenuItem(SortOrderType.BY_STATUS.toString(), null, new OrderShowAllByStatusAction());
 		IMenu menuSortOrder = new Menu("Sort orders by:");
 		addItemToMenu(menuSortOrder, sortOrder1, sortOrder2, sortOrder3);		
-		
+
 		IMenuItem order1 = new MenuItem(OrderMenuType.ADD.toString(), null, new OrderAddAction());
 		IMenuItem order2 = new MenuItem(OrderMenuType.ADD_BOOK_TO_ORDER.toString(), null, new OrderAddBookAction());
 		IMenuItem order3 = new MenuItem(OrderMenuType.COMPLETE.toString(), null, new OrderCompleteAction());
@@ -70,19 +86,25 @@ public class MenuCreator {
 		IMenuItem order5 = new MenuItem(OrderMenuType.CLONE.toString(), null, new OrderCloneAction());
 		IMenuItem order6 = new MenuItem(OrderMenuType.SHOW_DETAILS.toString(), null, new OrderShowDetailsAction());
 		IMenuItem order7 = new MenuItem(OrderMenuType.SHOW_ALL.toString(), menuSortOrder, null);
-		IMenuItem order8 = new MenuItem(OrderMenuType.SHOW_FOR_DATE_PERIOD.toString(), null, new OrderShowDataPeriodAction());
-		IMenuItem order9 = new MenuItem(OrderMenuType.SHOW_COMPLETED_QUANTITY.toString(), null, new OrderShowCompletedQuantityAction());	
+		IMenuItem order8 = new MenuItem(OrderMenuType.SHOW_FOR_DATE_PERIOD.toString(), null,
+				new OrderShowDataPeriodAction());
+		IMenuItem order9 = new MenuItem(OrderMenuType.SHOW_COMPLETED_QUANTITY.toString(), null,
+				new OrderShowCompletedQuantityAction());
+		IMenuItem order10 = new MenuItem(OrderMenuType.EXPORT.toString(), null, new OrderExportAction());
+		IMenuItem order11 = new MenuItem(OrderMenuType.IMPORT.toString(), null, new OrderImportAction());
 		IMenu menuOrder = new Menu("Order menu:");
-		addItemToMenu(menuOrder, order1, order2, order3, order4, order5, order6, order7, order8, order9);
-		
-		IMenuItem request1 = new MenuItem(RequestMenuType.ADD.toString(), null, new RequestAddAction());		
+		addItemToMenu(menuOrder, order1, order2, order3, order4, order5, order6, order7, order8, order9, order10, order11);
+
+		IMenuItem request1 = new MenuItem(RequestMenuType.ADD.toString(), null, new RequestAddAction());
+		IMenuItem request2 = new MenuItem(RequestMenuType.EXPORT.toString(), null, new RequestExportAction());
+		IMenuItem request3 = new MenuItem(RequestMenuType.IMPORT.toString(), null, new RequestImportAction());
 		IMenu menuRequest = new Menu("Request Menu:");
-		addItemToMenu(menuRequest, request1);
-		
+		addItemToMenu(menuRequest, request1, request2, request3);
+
 		IMenuItem total1 = new MenuItem(TotalMenuType.SHOW_TOTAL_INCOME.toString(), null, new TotalShowIncomeAction());
 		IMenu menuTotal = new Menu("Total menu:");
 		addItemToMenu(menuTotal, total1);
-		
+
 		IMenuItem main1 = new MenuItem(MainMenuType.BOOK.toString(), menuBook, null);
 		IMenuItem main2 = new MenuItem(MainMenuType.ORDER.toString(), menuOrder, null);
 		IMenuItem main3 = new MenuItem(MainMenuType.REQUEST.toString(), menuRequest, null);
@@ -93,10 +115,4 @@ public class MenuCreator {
 		addItemToMenu(menuMain, main1, main2, main3, main4, main5);
 		return menuMain;
 	}
-	
-	private static void addItemToMenu(IMenu menu, IMenuItem... newMenuItems) {
-		List<IMenuItem> menuItems = menu.getMenuItems();
-		for (IMenuItem menuItem : newMenuItems)
-			menuItems.add(menuItem);
-	}		
 }

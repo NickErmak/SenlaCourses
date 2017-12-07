@@ -21,5 +21,4 @@ public class BookShowAllByStockAction implements IAction {
 		actionInfo.put("message", ResponseBookMessage.SHOW_ALL_BY_STOCK);
 		return new Query(actionInfo);
 	}
-
 }

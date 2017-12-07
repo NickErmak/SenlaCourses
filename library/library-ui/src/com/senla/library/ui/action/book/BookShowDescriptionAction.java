@@ -19,7 +19,7 @@ public class BookShowDescriptionAction implements IAction{
 		actionInfo.put("bookType", BookMenuType.SHOW_DESCRIPTION);	
 		actionInfo.put("message", ResponseBookMessage.SHOW_DESCRIPTION);
 		actionInfo.put("inputMessage", QueryInputMessage.GET_BOOK_ID);
+		actionInfo.put("inputAction", new BookShowAllAlphabeticallyAction());
 		return new Query(actionInfo);
 	}
-
 }

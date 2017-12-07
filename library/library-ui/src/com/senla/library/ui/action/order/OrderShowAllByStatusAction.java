@@ -21,5 +21,4 @@ public class OrderShowAllByStatusAction implements IAction{
 		actionInfo.put("message", ResponseOrderMessage.SHOW_ALL_BY_STATUS);
 		return new Query(actionInfo);
 	}
-
 }

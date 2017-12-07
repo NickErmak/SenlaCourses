@@ -21,5 +21,4 @@ public class BookShowAllAlphabeticallyAction implements IAction {
 		actionInfo.put("message", ResponseBookMessage.SHOW_ALL_APHABETICALLY);
 		return new Query(actionInfo);
 	}
-
 }

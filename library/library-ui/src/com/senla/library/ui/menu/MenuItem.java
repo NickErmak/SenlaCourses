@@ -6,7 +6,6 @@ import com.senla.library.api.ui.menu.IMenu;
 import com.senla.library.api.ui.menu.IMenuItem;
 
 public class MenuItem implements IMenuItem{
-
 	private String title;
 	private IMenu nextMenu;
 	private IAction action;
@@ -31,5 +30,4 @@ public class MenuItem implements IMenuItem{
 	public String toString() {
 		return title;
 	}
-
 }

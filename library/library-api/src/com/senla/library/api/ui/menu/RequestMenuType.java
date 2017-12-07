@@ -1,10 +1,9 @@
 package com.senla.library.api.ui.menu;
 
 public enum RequestMenuType {
+	ADD("Add"), EXPORT("Export to file"), IMPORT("Import from file");
 
-	ADD("Add");
-
-	String menuItem;
+	private String menuItem;
 
 	private RequestMenuType(String menuItem) {
 		this.menuItem = menuItem;

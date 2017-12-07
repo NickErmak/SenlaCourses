@@ -14,5 +14,4 @@ public class BookByQuery implements Comparator<IBook> {
 		else
 			return 0;
 	}
-
 }

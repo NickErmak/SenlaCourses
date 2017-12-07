@@ -4,9 +4,11 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class DateConverter {
+import org.apache.log4j.Logger;
 
-	private static SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+public class DateConverter {
+	private static Logger logger = Logger.getLogger(DateConverter.class);
+	private static SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
 
 	public static String dateToString(Date date) {
 		if (date == null)
@@ -18,6 +20,7 @@ public class DateConverter {
 		try {
 			return dateFormat.parse(date);
 		} catch (ParseException e) {
+			logger.error(e);
 			return null;
 		}
 	}

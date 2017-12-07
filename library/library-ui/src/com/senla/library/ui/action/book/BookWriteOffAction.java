@@ -19,6 +19,7 @@ public class BookWriteOffAction implements IAction {
 		actionInfo.put("bookType", BookMenuType.WRITE_OFF);		
 		actionInfo.put("message", ResponseBookMessage.WRITE_OFF);
 		actionInfo.put("inputMessage", QueryInputMessage.GET_BOOK_ID);
+		actionInfo.put("inputAction", new BookShowAllAlphabeticallyAction());
 		return new Query(actionInfo);
 	}
 }

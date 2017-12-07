@@ -17,5 +17,4 @@ public class BookShowQueryAction implements IAction{
 		actionInfo.put("bookType", BookMenuType.SHOW_QUERY);		
 		return new Query(actionInfo);
 	}
-
 }

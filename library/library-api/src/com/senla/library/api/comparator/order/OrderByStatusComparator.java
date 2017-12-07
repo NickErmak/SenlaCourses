@@ -13,5 +13,4 @@ public class OrderByStatusComparator implements Comparator<IOrder> {
 		else
 			return 0;
 	}
-
 }

@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import static com.senla.library.util.DateConverter.dateToString;
+import static com.senla.library.util.DateConverter.stringToDate;
 import com.senla.library.api.bean.IBook;
 import com.senla.library.api.bean.IOrderBookRelation;
-import com.senla.library.util.DateConverter;
 import com.senla.library.util.IdGenerator;
 
-public class Book extends Entity implements IBook {
-
+public class Book extends Entity implements IBook, Cloneable {
 	private static final long serialVersionUID = 3277417789616455081L;
 	private int id;
 	private String title;
@@ -21,13 +21,26 @@ public class Book extends Entity implements IBook {
 	private Integer requestId;
 	private List<IOrderBookRelation> orderBookList;
 
-	public Book(String title, Date publicationDate, Double price, String description) {
-		orderBookList = new ArrayList<>();
-		id = IdGenerator.generateId() + IdGenerator.BOOK_ID_LAST_DIGIT;
+	public Book(String title, Date publicationDate, Double price, String description, boolean onStock) {
 		this.title = title;
 		this.publicationDate = publicationDate;
 		this.price = price;
 		this.description = description;
+		this.onStock = onStock;
+		id = IdGenerator.generateId() + IdGenerator.BOOK_ID_LAST_DIGIT;
+		orderBookList = new ArrayList<>();
+	}
+
+	public Book(String[] bookCSVArray) {
+		id = Integer.valueOf(bookCSVArray[0]);
+		title = bookCSVArray[1];
+		publicationDate = stringToDate(bookCSVArray[2]);
+		price = Double.valueOf(bookCSVArray[3]);
+		description = bookCSVArray[4];
+		if (!bookCSVArray[5].equals("null")) {
+			requestId = Integer.valueOf(bookCSVArray[5]);
+		}
+		onStock = Boolean.valueOf(bookCSVArray[6]);
 	}
 
 	@Override
@@ -81,10 +94,15 @@ public class Book extends Entity implements IBook {
 	}
 
 	@Override
-	public String toString() {
-		return "Book [id=" + id + ", title=" + title + ", publicationDate="
-				+ DateConverter.dateToString(publicationDate) + ", price=" + price + ", description=" + description
-				+ ", onStock=" + onStock + "]";
+	public String[] toStringCSV() {
+		String[] arrayCSV = { String.valueOf(id), title, dateToString(publicationDate), String.valueOf(price),
+				description, String.valueOf(requestId), String.valueOf(onStock) };
+		return arrayCSV;
 	}
 
+	@Override
+	public String toString() {
+		return "id=" + id + ", title=" + title + ", date=" + dateToString(publicationDate) + ", price="
+				+ price + ", onStock=" + onStock;
+	}
 }

@@ -1,7 +1,6 @@
 package com.senla.library.api.transmitter.response;
 
-public enum ResponseOrderMessage {
-	
+public enum ResponseOrderMessage {	
 	ADD("Add new order operation status: "),
 	ADD_BOOK("Add book to order operation status: "),
 	CANCEL("Cancel order operation status: "),
@@ -11,9 +10,11 @@ public enum ResponseOrderMessage {
 	SHOW_ALL_BY_PRICE("Orders sorted by total amount"),
 	SHOW_ALL_BY_STATUS("Order sorted by status"),
 	ORDER_COMPLETED_QUANTITY("Quantity of completed orders = "),
-	CLONE("Clone operation status: ");
+	CLONE("Clone operation status: "),
+	EXPORT("Export operation status: "),
+	IMPORT("Import operation status: ");
 	
-	String message;
+	private String message;
 
 	private ResponseOrderMessage(String message) {
 		this.message = message;

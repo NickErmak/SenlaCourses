@@ -20,6 +20,5 @@ public class OrderShowCompletedQuantityAction implements IAction {
 		actionInfo.put("message", ResponseOrderMessage.ORDER_COMPLETED_QUANTITY);
 		actionInfo.put("inputMessage", QueryInputMessage.INPUT_DATES);
 		return new Query(actionInfo);
-
 	}
 }

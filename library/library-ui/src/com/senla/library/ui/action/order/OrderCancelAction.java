@@ -19,7 +19,7 @@ public class OrderCancelAction implements IAction {
 		actionInfo.put("orderType", OrderMenuType.CANCEL);
 		actionInfo.put("message", ResponseOrderMessage.CANCEL);
 		actionInfo.put("inputMessage", QueryInputMessage.GET_ORDER_ID);
+		actionInfo.put("inputAction", new OrderShowAllByDateAction());
 		return new Query(actionInfo);
 	}
-
 }

@@ -19,7 +19,7 @@ public class OrderCompleteAction implements IAction {
 		actionInfo.put("orderType", OrderMenuType.COMPLETE);
 		actionInfo.put("message", ResponseOrderMessage.COMPLETE);
 		actionInfo.put("inputMessage", QueryInputMessage.GET_ORDER_ID);
+		actionInfo.put("inputAction", new OrderShowAllByDateAction());
 		return new Query(actionInfo);
 	}
-
 }

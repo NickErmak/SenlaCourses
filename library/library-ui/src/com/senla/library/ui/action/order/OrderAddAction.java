@@ -21,5 +21,4 @@ public class OrderAddAction implements IAction{
 		actionInfo.put("inputMessage", QueryInputMessage.ADD_ORDER);
 		return new Query(actionInfo);
 	}
-
 }

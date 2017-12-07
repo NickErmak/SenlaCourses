@@ -6,23 +6,40 @@ import com.senla.library.api.bean.IEntity;
 import com.senla.library.api.transmitter.response.IResponse;
 
 public class Response implements IResponse {
-
-	private boolean exit;
+	private boolean returnOption;
+	private boolean isExit;
 	private List<? extends IEntity> entities;
 	private String message;
 
 	public Response(String message) {
 		this.message = message;		
+		returnOption = true;
 	}		
 	
 	@Override
+	public void completeMessage(String annex) {
+		message += annex;
+	}	
+	
+	@Override
 	public boolean isExit() {
-		return exit;
+		return isExit;
 	}
 	
 	@Override
-	public void setExit(boolean exit) {
-		this.exit = exit;
+	public void setExit(boolean isExit) {
+		returnOption = !isExit;
+		this.isExit = isExit;
+	}
+	
+	@Override
+	public boolean hasReturnOption() {
+		return returnOption;
+	}
+	
+	@Override
+	public void setReturnOption(boolean returnOption) {
+		this.returnOption = returnOption;
 	}
 
 	@Override
@@ -33,16 +50,10 @@ public class Response implements IResponse {
 	@Override
 	public void setEntities(List<? extends IEntity> entities) {		
 		this.entities = entities;
-	}
-	
-	@Override
-	public void completeMessage(String annex) {
-		message += annex;
-	}
+	}	
 	
 	@Override
 	public String toString() {
 		return message.toString();
 	}	
-
 }

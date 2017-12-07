@@ -1,18 +1,13 @@
 package com.senla.library.api.bean;
 
 public enum Status {
-
 	PROCESSING("processing"), COMPLETED("completed"), CANCELLED("cancelled");
 
-	String statusType;
+	private String statusType;
 
 	private Status(String statusType) {
 		this.statusType = statusType;
-	}
-
-	public String toString() {
-		return statusType;
-	}
+	}	
 
 	public static Status getStatus(String status) {
 		if (status.equals(PROCESSING.statusType))
@@ -25,4 +20,7 @@ public enum Status {
 			return null;
 	}
 
+	public String toString() {
+		return statusType;
+	}
 }

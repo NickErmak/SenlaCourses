@@ -13,7 +13,7 @@ public class OrderByDateComparator implements Comparator<IOrder> {
 			Date date1 = order1.getDate();
 			Date date2 = order2.getDate();
 			if (date1 != null && date2 != null)
-				return date1.compareTo(date2);
+				return date2.compareTo(date1);
 			else if (date1 != null && date2 == null)
 				return -1;
 			else
@@ -21,5 +21,4 @@ public class OrderByDateComparator implements Comparator<IOrder> {
 		}
 		return 0;
 	}
-
 }

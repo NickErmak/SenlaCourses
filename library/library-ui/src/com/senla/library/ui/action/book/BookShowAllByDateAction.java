@@ -21,5 +21,4 @@ public class BookShowAllByDateAction implements IAction {
 		actionInfo.put("message", ResponseBookMessage.SHOW_ALL_BY_DATE);
 		return new Query(actionInfo);
 	}
-
 }

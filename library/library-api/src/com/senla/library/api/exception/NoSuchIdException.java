@@ -1,7 +1,6 @@
 package com.senla.library.api.exception;
 
-public class NoSuchIdException extends Exception{
-	
+public class NoSuchIdException extends Exception{	
 	private static final long serialVersionUID = -4491517548918913457L;	
 	private Integer id;
 
@@ -11,7 +10,6 @@ public class NoSuchIdException extends Exception{
 
 	@Override
 	public String toString() {
-		return "NoSuchIdException [id=" + id + "]";
-	}
-	
+		return "id=" + id + " doesn't exist!";
+	}	
 }

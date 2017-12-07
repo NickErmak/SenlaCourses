@@ -19,7 +19,7 @@ public class OrderCloneAction implements IAction{
 		actionInfo.put("orderType", OrderMenuType.CLONE);
 		actionInfo.put("message", ResponseOrderMessage.CLONE);
 		actionInfo.put("inputMessage", QueryInputMessage.GET_ORDER_ID);
+		actionInfo.put("inputAction", new OrderShowAllByDateAction());
 		return new Query(actionInfo);
 	}
-
 }

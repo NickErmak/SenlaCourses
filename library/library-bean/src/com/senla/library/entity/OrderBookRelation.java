@@ -1,38 +1,36 @@
 package com.senla.library.entity;
 
+import java.io.Serializable;
+
 import com.senla.library.api.bean.IOrderBookRelation;
 
-public class OrderBookRelation extends Entity implements IOrderBookRelation{
-	
+public class OrderBookRelation implements IOrderBookRelation, Serializable, Cloneable {
 	private static final long serialVersionUID = -8295995103629543259L;
 	private int orderId;
 	private int bookId;
-	
-	public OrderBookRelation() {}
-	
+
 	public OrderBookRelation(int orderId, int bookId) {
 		this.orderId = orderId;
 		this.bookId = bookId;
 	}
-	
-	public OrderBookRelation(String[] data) {
-		orderId = Integer.valueOf(data[0]);
-		bookId = Integer.valueOf(data[1]);
-	}
-	
+
 	@Override
 	public int getBookId() {
 		return bookId;
 	}
+
+	@Override
+	public int getOrderId() {
+		return orderId;
+	}	
 	
 	@Override
-	public int getId() {
-		return orderId;
+	public IOrderBookRelation clone() throws CloneNotSupportedException {
+		return (IOrderBookRelation) super.clone();
 	}
 	
 	@Override
 	public String toString() {
-		return "" + orderId + "  " + bookId;
+		return String.valueOf(bookId);
 	}
-		
 }

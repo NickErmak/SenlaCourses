@@ -1,7 +1,6 @@
 package com.senla.library.api.transmitter.response;
 
 public enum ResponseBookMessage {
-
 	ADD("Add new book operation status: "),
 	SHOW_DESCRIPTION("Book description: "),
 	SHOW_ALL_APHABETICALLY("Books sorted alphabetically:"),
@@ -9,9 +8,11 @@ public enum ResponseBookMessage {
 	SHOW_ALL_BY_PRICE("Books sorted by price:"),
 	SHOW_ALL_BY_STOCK("Books sorted by stock:"),
 	WRITE_OFF("Write off operation status: "),
-	UNSOLD_BOOKS("Unsold books:");
+	UNSOLD_BOOKS("Unsold books:"),
+	EXPORT("Export operation status: "),
+	IMPORT("Import operation status: ");
 	
-	String message;
+	private String message;
 
 	private ResponseBookMessage(String message) {
 		this.message = message;

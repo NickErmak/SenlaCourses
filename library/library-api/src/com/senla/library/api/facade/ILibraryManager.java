@@ -11,25 +11,32 @@ import com.senla.library.api.comparator.book.SortBookQueryType;
 import com.senla.library.api.comparator.book.SortBookType;
 import com.senla.library.api.comparator.order.SortOrderType;
 import com.senla.library.api.exception.NoSuchIdException;
+import com.senla.library.api.ui.ConsoleMessage;
 
 public interface ILibraryManager {
 	
-	public ExecutionType addBook(IBook book) throws NoSuchIdException;
-	public ExecutionType writeOffBook(int id) throws NoSuchIdException;
+	public ConsoleMessage addBook(IBook book) throws NoSuchIdException;
+	public ConsoleMessage writeOffBook(int id) throws NoSuchIdException;
 	public List<IBook> showBooks(SortBookType type);
 	public List<IBook> showBookQuery(SortBookQueryType type);
 	public List<IBook> showUnsoldBooks() throws NoSuchIdException;
 	public String showBookDescription(int bookId) throws NoSuchIdException;
-	public ExecutionType addOrder(IOrder order);
-	public ExecutionType addBookToOrder(IOrderBookRelation relation) throws NoSuchIdException;
-	public ExecutionType completeOrder(int id) throws NoSuchIdException;
-	public ExecutionType cancelOrder(int id) throws NoSuchIdException;
+	public ConsoleMessage addOrder(IOrder order);
+	public ConsoleMessage addBookToOrder(IOrderBookRelation relation) throws NoSuchIdException;
+	public ConsoleMessage completeOrder(int id) throws NoSuchIdException;
+	public ConsoleMessage cancelOrder(int id) throws NoSuchIdException;
 	public String showOrderDetails(int orderId) throws NoSuchIdException;
 	public List<IOrder> showOrders(SortOrderType type);
 	public List<IOrder> showOrders(Date dateBefore, Date dateAfter, SortOrderType type);
 	public double showTotalIncome(Date dateBefore, Date dateAfter);
 	public int showCompletedOrderQuantity(Date dateBefore, Date dateAfter);
-	public ExecutionType addRequest(IRequest request) throws NoSuchIdException;
-	public ExecutionType exitProgram();
-	public ExecutionType cloneOrder(int id) throws CloneNotSupportedException, NoSuchIdException ;	
+	public ConsoleMessage addRequest(IRequest request) throws NoSuchIdException;
+	public ConsoleMessage exitProgram();
+	public ConsoleMessage cloneOrder(int id) throws NoSuchIdException;	
+	public ConsoleMessage exportCSVBook ();
+	public ConsoleMessage importCSVBook();
+	public ConsoleMessage exportCSVOrder ();
+	public ConsoleMessage exportCSVRequest ();
+	public ConsoleMessage importCSVOrder();
+	public ConsoleMessage importCSVRequest();
 }

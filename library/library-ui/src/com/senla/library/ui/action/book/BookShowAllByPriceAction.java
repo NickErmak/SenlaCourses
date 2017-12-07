@@ -21,5 +21,4 @@ public class BookShowAllByPriceAction implements IAction {
 		actionInfo.put("message", ResponseBookMessage.SHOW_ALL_BY_PRICE);
 		return new Query(actionInfo);
 	}
-
 }

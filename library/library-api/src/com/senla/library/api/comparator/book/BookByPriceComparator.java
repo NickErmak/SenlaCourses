@@ -13,5 +13,4 @@ public class BookByPriceComparator implements Comparator<IBook> {
 		else
 			return 0;
 	}
-
 }

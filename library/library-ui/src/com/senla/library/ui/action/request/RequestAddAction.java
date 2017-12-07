@@ -21,5 +21,4 @@ public class RequestAddAction implements IAction{
 		actionInfo.put("inputMessage", QueryInputMessage.GET_BOOK_ID);
 		return new Query(actionInfo);
 	}
-
 }

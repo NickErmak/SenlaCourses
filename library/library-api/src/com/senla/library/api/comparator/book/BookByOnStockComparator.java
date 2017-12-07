@@ -13,5 +13,4 @@ public class BookByOnStockComparator implements Comparator<IBook> {
 		else
 			return 0;
 	}
-
 }

@@ -3,7 +3,7 @@ package com.senla.library.api.bean;
 import java.util.Date;
 import java.util.List;
 
-public interface IBook extends IEntity{
+public interface IBook extends IEntity{	
 	
 	public void setOnStock(boolean onStock);
 	public boolean isOnStock();
@@ -13,5 +13,5 @@ public interface IBook extends IEntity{
 	public double getPrice();
 	public String getTitle();
 	public Integer getRequestId();	
-	public String getDescription();
+	public String getDescription();	
 }

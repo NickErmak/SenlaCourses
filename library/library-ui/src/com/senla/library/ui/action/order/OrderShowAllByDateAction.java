@@ -21,5 +21,4 @@ public class OrderShowAllByDateAction implements IAction{
 		actionInfo.put("message", ResponseOrderMessage.SHOW_ALL_BY_DATE);
 		return new Query(actionInfo);
 	}
-
 }

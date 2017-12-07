@@ -5,25 +5,22 @@ import java.util.List;
 
 import com.senla.library.api.bean.IRequest;
 import com.senla.library.api.exception.NoSuchIdException;
-import com.senla.library.api.repository.IRequestRepository;
-import com.senla.library.util.ArrayHandler;
+import com.senla.library.util.CollectionHandler;
 import com.senla.library.util.FileWorker;
 
-public class RequestRepository implements IRequestRepository {
-
+public class RequestRepository {
 	private static RequestRepository instance;
-	private static final String FILE_PATH = "data/request.ser";
 	private List<IRequest> requests;
-
-	public static RequestRepository getInstance() {
-		if (instance == null)
-			instance = new RequestRepository();
-		return instance;
-	}
 
 	private RequestRepository() {
 		requests = new ArrayList<>();
-		readData();
+	}
+
+	public static RequestRepository getInstance() {
+		if (instance == null) {
+			instance = new RequestRepository();
+		}
+		return instance;
 	}
 
 	public void addRequest(IRequest request) {
@@ -31,18 +28,22 @@ public class RequestRepository implements IRequestRepository {
 	}
 
 	public IRequest getRequest(Integer id) throws NoSuchIdException {
-		return ArrayHandler.getElementById(id, requests);
+		return CollectionHandler.getElementById(id, requests);
+	}
+
+	public List<IRequest> getRequests() {
+		return requests;
 	}
 
 	@SuppressWarnings("unchecked")
-	public void readData() {
-		Object fileData = FileWorker.read(FILE_PATH);
-		if (fileData != null)
+	public void readData(String filePath) {
+		Object fileData = FileWorker.read(filePath);
+		if (fileData != null) {
 			requests = (List<IRequest>) fileData;
+		}
 	}
 
-	public void saveData() {
-		FileWorker.save(requests, "data/request.ser");
+	public void saveData(String filePath) {
+		FileWorker.save(requests, filePath);
 	}
-
 }

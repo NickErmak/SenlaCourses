@@ -13,5 +13,4 @@ public class OrderByPriceComparator implements Comparator<IOrder> {
 		else
 			return 0;
 	}
-
 }

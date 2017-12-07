@@ -1,11 +1,10 @@
 package com.senla.library.api.transmitter.response;
 
 public enum ResponseMessage {
-
 	EXIT("Save data operation status: "),
 	TOTAL_SHOW_INCOME("Total income for saled books = ");
 
-	String message;
+	private String message;
 
 	private ResponseMessage(String message) {
 		this.message = message;

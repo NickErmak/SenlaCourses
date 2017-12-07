@@ -1,5 +1,5 @@
 package com.senla.library.api.comparator.book;
 
-public enum SortBookQueryType {
+public enum SortBookQueryType {	
 	BY_QUANTITY, ALPHABETICALLY
 }
