@@ -11,6 +11,7 @@ import com.senla.library.api.bean.IRequest;
 import com.senla.library.api.comparator.book.SortBookType;
 import com.senla.library.api.comparator.order.SortOrderType;
 import com.senla.library.api.exception.NoSuchIdException;
+import com.senla.library.api.exception.NonParseableException;
 import com.senla.library.api.facade.ILibraryManager;
 import com.senla.library.api.transmitter.ITransmitter;
 import com.senla.library.api.transmitter.query.IQuery;
@@ -73,15 +74,20 @@ public class Transmitter implements ITransmitter {
 		} catch (NoSuchIdException e) {
 			response.completeMessage(e.toString());
 			logger.error(e);
+		} catch (NonParseableException e) {
+			response.completeMessage(e.toString());
+			logger.error(e);
 		}
 		return response;
 	}
 
-	private void sendBookQuery(Map<String, Object> actionInfo, IResponse response) throws NoSuchIdException {
+	private void sendBookQuery(Map<String, Object> actionInfo, IResponse response)
+			throws NoSuchIdException, NonParseableException {
 		switch ((BookMenuType) actionInfo.get("bookType")) {
 		case ADD: {
 			String input[] = actionInfo.get("input").toString().split("--");
-			IBook book = new Book(input[0], DateConverter.stringToDate(input[1]), Double.valueOf(input[2]), input[3], Boolean.valueOf(input[4]));
+			IBook book = new Book(input[0], DateConverter.stringToDate(input[1]), Double.valueOf(input[2]), input[3],
+					Boolean.valueOf(input[4]));
 			response.completeMessage(libraryManager.addBook(book).toString());
 			break;
 		}
@@ -118,7 +124,7 @@ public class Transmitter implements ITransmitter {
 		}
 	}
 
-	private void sendOrderQuery(Map<String, Object> actionInfo, IResponse response) throws NoSuchIdException {
+	private void sendOrderQuery(Map<String, Object> actionInfo, IResponse response) throws NoSuchIdException, NonParseableException {
 		switch ((OrderMenuType) actionInfo.get("orderType")) {
 		case ADD: {
 			IOrder order = new Order(actionInfo.get("input").toString());
@@ -177,7 +183,7 @@ public class Transmitter implements ITransmitter {
 		}
 	}
 
-	private void sendRequestQuery(Map<String, Object> actionInfo, IResponse response) throws NoSuchIdException {
+	private void sendRequestQuery(Map<String, Object> actionInfo, IResponse response) throws NoSuchIdException, NonParseableException {
 		switch ((RequestMenuType) actionInfo.get("requestType")) {
 		case ADD:
 			int id = Integer.valueOf(actionInfo.get("input").toString());

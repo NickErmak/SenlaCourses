@@ -30,6 +30,11 @@ public class BookRepository {
 	public IBook getBook(int id) throws NoSuchIdException {
 		return CollectionHandler.getElementById(id, books);
 	}
+	
+	public void refreshBook(IBook deprecatedBook, IBook refreshedBook) {
+		books.remove(deprecatedBook);
+		books.add(refreshedBook);
+	}
 
 	public List<IBook> getBooks() {
 		return books;

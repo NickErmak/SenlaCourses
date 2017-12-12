@@ -30,6 +30,11 @@ public class RequestRepository {
 	public IRequest getRequest(Integer id) throws NoSuchIdException {
 		return CollectionHandler.getElementById(id, requests);
 	}
+	
+	public void refreshRequest(IRequest deprecatedRequest, IRequest refreshedRequest) {
+		requests.remove(deprecatedRequest);
+		requests.add(refreshedRequest);
+	}
 
 	public List<IRequest> getRequests() {
 		return requests;

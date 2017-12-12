@@ -9,7 +9,7 @@ import java.util.Properties;
 import org.apache.log4j.Logger;
 
 import com.senla.library.api.config.IPropertyReader;
-import com.senla.library.api.config.PropertyType;
+import com.senla.library.api.config.PropertyUnit;
 
 public class PropertyReader implements IPropertyReader {
 	private static final String PATH_TO_PROPERTIES = "/config.properties";
@@ -29,11 +29,11 @@ public class PropertyReader implements IPropertyReader {
 	}
 
 	@Override
-	public Map<PropertyType, String> load() {
-		Map<PropertyType, String> propertiesMap = new HashMap<>();
+	public Map<PropertyUnit, String> load() {
+		Map<PropertyUnit, String> propertiesMap = new HashMap<>();
 		try (InputStream inputStream = PropertyReader.class.getResourceAsStream(PATH_TO_PROPERTIES)) {
 			properties.load(inputStream);
-			for (PropertyType propertyType : PropertyType.values()) {
+			for (PropertyUnit propertyType : PropertyUnit.values()) {
 				propertiesMap.put(propertyType, properties.getProperty(propertyType.toString()));
 			}
 		} catch (IOException e) {

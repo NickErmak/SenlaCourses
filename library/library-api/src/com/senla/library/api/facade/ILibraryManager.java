@@ -11,6 +11,7 @@ import com.senla.library.api.comparator.book.SortBookQueryType;
 import com.senla.library.api.comparator.book.SortBookType;
 import com.senla.library.api.comparator.order.SortOrderType;
 import com.senla.library.api.exception.NoSuchIdException;
+import com.senla.library.api.exception.NonParseableException;
 import com.senla.library.api.ui.ConsoleMessage;
 
 public interface ILibraryManager {
@@ -33,10 +34,10 @@ public interface ILibraryManager {
 	public ConsoleMessage addRequest(IRequest request) throws NoSuchIdException;
 	public ConsoleMessage exitProgram();
 	public ConsoleMessage cloneOrder(int id) throws NoSuchIdException;	
-	public ConsoleMessage exportCSVBook ();
-	public ConsoleMessage importCSVBook();
-	public ConsoleMessage exportCSVOrder ();
-	public ConsoleMessage exportCSVRequest ();
-	public ConsoleMessage importCSVOrder();
-	public ConsoleMessage importCSVRequest();
+	public ConsoleMessage exportCSVBook () throws NonParseableException;
+	public ConsoleMessage importCSVBook() throws NonParseableException;
+	public ConsoleMessage exportCSVOrder () throws NonParseableException;
+	public ConsoleMessage exportCSVRequest () throws NonParseableException;
+	public ConsoleMessage importCSVOrder() throws NonParseableException;
+	public ConsoleMessage importCSVRequest() throws NonParseableException;
 }

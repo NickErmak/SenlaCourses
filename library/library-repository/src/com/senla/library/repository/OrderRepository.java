@@ -30,6 +30,11 @@ public class OrderRepository {
 	public IOrder getOrder(int id) throws NoSuchIdException {
 		return CollectionHandler.getElementById(id, orders);
 	}
+	
+	public void refreshOrder(IOrder deprecatedorder, IOrder refreshedOrder) {
+		orders.remove(deprecatedorder);
+		orders.add(refreshedOrder);
+	}
 
 	public List<IOrder> getOrders() {
 		return orders;

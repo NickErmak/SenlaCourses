@@ -82,13 +82,14 @@ public class Builder {
 				notifyNavigator(ConsoleMessage.NO_MESSAGE);
 				return false;
 			}
-		} catch (NoSuchElementException | NumberFormatException e) {
+		} catch (NumberFormatException e) {
 			notifyNavigator(ConsoleMessage.ERROR_INCORRECT_INPUT);
 			scanner.next();
 			logger.error(e);
 			return false;
-		} catch (IndexOutOfBoundsException | EmptyStackException e) {
+		} catch (NoSuchElementException | IndexOutOfBoundsException | EmptyStackException e) {
 			notifyNavigator(ConsoleMessage.ERROR_NO_SUCH_ITEM);
+			e.printStackTrace();
 			logger.error(e);
 			return false;
 		}

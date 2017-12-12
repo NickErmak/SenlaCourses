@@ -4,5 +4,5 @@ import java.util.Map;
 
 public interface IPropertyReader {
 	
-	public Map<PropertyType, String> load();
+	public Map<PropertyUnit, String> load();
 }

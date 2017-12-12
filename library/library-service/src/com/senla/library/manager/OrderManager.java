@@ -1,14 +1,13 @@
 package com.senla.library.manager;
 
-import static com.senla.library.util.CSVWorker.loadCSV;
-import static com.senla.library.util.CSVWorker.saveCSV;
-import static com.senla.library.util.CollectionHandler.parseToStringWithHeader;
+import static com.senla.library.csv.CSVHandler.CSVFileReader.read;
+import static com.senla.library.csv.CSVHandler.CSVFileWriter.write;
 
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 
 import org.apache.log4j.Logger;
 
@@ -16,12 +15,12 @@ import com.senla.library.api.bean.IOrder;
 import com.senla.library.api.bean.IOrderBookRelation;
 import com.senla.library.api.bean.Status;
 import com.senla.library.api.exception.NoSuchIdException;
+import com.senla.library.api.exception.NonParseableException;
 import com.senla.library.api.ui.ConsoleMessage;
 import com.senla.library.entity.Order;
 import com.senla.library.repository.OrderRepository;
 
 public class OrderManager {
-	private final static String[] CSV_HEAD = { "id", "date", "name", "books Id", "total amount", "status" };
 	private static Logger logger = Logger.getLogger(OrderManager.class);
 	private final OrderRepository orderRepository;
 
@@ -36,6 +35,10 @@ public class OrderManager {
 
 	public IOrder getOrder(int orderId) throws NoSuchIdException {
 		return orderRepository.getOrder(orderId);
+	}
+	
+	public void refreshOrder(IOrder deprecatedOrder, IOrder refreshedOrder) {
+		orderRepository.refreshOrder(deprecatedOrder, refreshedOrder);
 	}
 
 	public List<IOrder> getOrders() {
@@ -93,18 +96,21 @@ public class OrderManager {
 		}
 	}
 
-	public void exportCSV(String filePath) {
-		saveCSV(filePath, parseToStringWithHeader(getOrders(), CSV_HEAD));
+	public void exportCSV(String filePath) throws NonParseableException {
+		List<IOrder> orders = getOrders();
+		if (!orders.isEmpty()) {
+			write(getOrders(), filePath);
+		}
 	}
 
-	public void importCSV(String filePath) {
-		ListIterator<String[]> listIterator = loadCSV(filePath).listIterator(1);
-		while (listIterator.hasNext()) {
-			IOrder orderCSV = new Order(listIterator.next());
+	public void importCSV(String filePath) throws NonParseableException {
+		Iterator<Order> iteratorCSV = read(Order.class, filePath).iterator();
+		while (iteratorCSV.hasNext()) {
+			IOrder orderCSV = iteratorCSV.next();
 			try {
 				IOrder order = getOrder(orderCSV.getId());
 				if (order != null) {
-					order = orderCSV;
+					refreshOrder(order, orderCSV);
 				}
 			} catch (NoSuchIdException e) {
 				addOrder(orderCSV);

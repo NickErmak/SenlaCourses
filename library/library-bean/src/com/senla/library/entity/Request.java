@@ -4,16 +4,24 @@ import static com.senla.library.util.DateConverter.stringToDate;
 
 import java.util.Date;
 
+import com.senla.library.annotation.csv.CsvConstructor;
+import com.senla.library.annotation.csv.CsvEntity;
+import com.senla.library.annotation.csv.CsvProperty;
+import com.senla.library.annotation.csv.CsvProperty.PropertyType;
 import com.senla.library.api.bean.IRequest;
 import com.senla.library.api.bean.Status;
 import com.senla.library.util.DateConverter;
 import com.senla.library.util.IdGenerator;
 
+@CsvEntity(fileName = "request.csv", valuesSeparator = ';', entityId = "id")
 public class Request extends Entity implements IRequest {
 	private static final long serialVersionUID = 6561901578226972677L;
 	private int id;
+	@CsvProperty(propertyType = PropertyType.SimpleProperty, columnNumber = 1)
 	private int bookId;
+	@CsvProperty(propertyType = PropertyType.SimpleProperty, columnNumber = 2)
 	private Date date;
+	@CsvProperty(propertyType = PropertyType.SimpleProperty, columnNumber = 3)
 	private Status status;
 
 	public Request(int bookId) {
@@ -23,6 +31,7 @@ public class Request extends Entity implements IRequest {
 		date = null;
 	}
 	
+	@CsvConstructor
 	public Request(String[] requestCSVArray) {
 		id = Integer.valueOf(requestCSVArray[0]);
 		bookId = Integer.valueOf(requestCSVArray[1]);

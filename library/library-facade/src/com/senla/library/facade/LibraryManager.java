@@ -22,8 +22,9 @@ import com.senla.library.api.comparator.order.OrderByDateComparator;
 import com.senla.library.api.comparator.order.OrderByPriceComparator;
 import com.senla.library.api.comparator.order.OrderByStatusComparator;
 import com.senla.library.api.comparator.order.SortOrderType;
-import com.senla.library.api.config.PropertyType;
+import com.senla.library.api.config.PropertyUnit;
 import com.senla.library.api.exception.NoSuchIdException;
+import com.senla.library.api.exception.NonParseableException;
 import com.senla.library.api.facade.ILibraryManager;
 import com.senla.library.api.ui.ConsoleMessage;
 import com.senla.library.config.reader.PropertyReader;
@@ -36,13 +37,13 @@ public class LibraryManager implements ILibraryManager {
 	private BookManager bookManager;
 	private OrderManager orderManager;
 	private RequestManager requestManager;
-	private Map<PropertyType, String> properties;
+	private Map<PropertyUnit, String> properties;
 
 	private LibraryManager() {
 		reloadProperties();
-		bookManager = new BookManager(properties.get(PropertyType.DATA_BOOK));
-		orderManager = new OrderManager(properties.get(PropertyType.DATA_ORDER));
-		requestManager = new RequestManager(properties.get(PropertyType.DATA_REQUEST));
+		bookManager = new BookManager(properties.get(PropertyUnit.DATA_BOOK));
+		orderManager = new OrderManager(properties.get(PropertyUnit.DATA_ORDER));
+		requestManager = new RequestManager(properties.get(PropertyUnit.DATA_REQUEST));
 	}
 
 	public static ILibraryManager getInstance() {
@@ -59,7 +60,7 @@ public class LibraryManager implements ILibraryManager {
 	@Override
 	public ConsoleMessage addBook(IBook book) throws NoSuchIdException {
 		reloadProperties();
-		boolean autoCompleteRequest = Boolean.valueOf(properties.get(PropertyType.AUTO_COMPLETE_REQUEST));
+		boolean autoCompleteRequest = Boolean.valueOf(properties.get(PropertyUnit.AUTO_COMPLETE_REQUEST));
 		bookManager.addBook(book);
 		if (book.getRequestId() != null) {
 			IRequest request = requestManager.getRequest(book.getRequestId());
@@ -107,7 +108,7 @@ public class LibraryManager implements ILibraryManager {
 	@Override
 	public List<IBook> showUnsoldBooks() throws NoSuchIdException {
 		reloadProperties();
-		int unsoldMonth = Integer.valueOf(properties.get(PropertyType.UNSOLD_MONTH));
+		int unsoldMonth = Integer.valueOf(properties.get(PropertyUnit.UNSOLD_MONTH));
 		List<IBook> unsoldBooks = new ArrayList<>();
 		Calendar calendar = Calendar.getInstance();
 		calendar.add(Calendar.MONTH, unsoldMonth);
@@ -126,16 +127,16 @@ public class LibraryManager implements ILibraryManager {
 	}
 
 	@Override
-	public ConsoleMessage exportCSVBook() {
+	public ConsoleMessage exportCSVBook() throws NonParseableException {
 		reloadProperties();
-		bookManager.exportCSV(properties.get(PropertyType.CSV_BOOK));
+		bookManager.exportCSV(properties.get(PropertyUnit.CSV_FOLDER));
 		return ConsoleMessage.SUCCESS;
 	}
 
 	@Override
-	public ConsoleMessage importCSVBook() {
+	public ConsoleMessage importCSVBook() throws NonParseableException {
 		reloadProperties();
-		bookManager.importCSV(properties.get(PropertyType.CSV_BOOK));
+		bookManager.importCSV(properties.get(PropertyUnit.CSV_FOLDER));
 		return ConsoleMessage.SUCCESS;
 	}
 
@@ -218,16 +219,16 @@ public class LibraryManager implements ILibraryManager {
 	}
 
 	@Override
-	public ConsoleMessage exportCSVOrder() {
+	public ConsoleMessage exportCSVOrder() throws NonParseableException {
 		reloadProperties();
-		orderManager.exportCSV(properties.get(PropertyType.CSV_ORDER));
+		orderManager.exportCSV(properties.get(PropertyUnit.CSV_FOLDER));
 		return ConsoleMessage.SUCCESS;
 	}
 
 	@Override
-	public ConsoleMessage importCSVOrder() {
+	public ConsoleMessage importCSVOrder() throws NonParseableException {
 		reloadProperties();
-		orderManager.importCSV(properties.get(PropertyType.CSV_ORDER));
+		orderManager.importCSV(properties.get(PropertyUnit.CSV_FOLDER));
 		return ConsoleMessage.SUCCESS;
 	}
 
@@ -244,25 +245,25 @@ public class LibraryManager implements ILibraryManager {
 	}
 
 	@Override
-	public ConsoleMessage exportCSVRequest() {
+	public ConsoleMessage exportCSVRequest() throws NonParseableException {
 		reloadProperties();
-		requestManager.exportCSV(properties.get(PropertyType.CSV_REQUEST));
-		return ConsoleMessage.SUCCESS;
+		requestManager.exportCSV(properties.get(PropertyUnit.CSV_FOLDER));
+		return ConsoleMessage.SUCCESS; 
 	}
 
 	@Override
-	public ConsoleMessage importCSVRequest() {
+	public ConsoleMessage importCSVRequest() throws NonParseableException {
 		reloadProperties();
-		requestManager.importCSV(properties.get(PropertyType.CSV_REQUEST));
+		requestManager.importCSV(properties.get(PropertyUnit.CSV_FOLDER));
 		return ConsoleMessage.SUCCESS;
 	}
 
 	@Override
 	public ConsoleMessage exitProgram() {
 		reloadProperties();
-		bookManager.saveData(properties.get(PropertyType.DATA_BOOK));
-		orderManager.saveData(properties.get(PropertyType.DATA_ORDER));
-		requestManager.saveData(properties.get(PropertyType.DATA_REQUEST));
+		bookManager.saveData(properties.get(PropertyUnit.DATA_BOOK));
+		orderManager.saveData(properties.get(PropertyUnit.DATA_ORDER));
+		requestManager.saveData(properties.get(PropertyUnit.DATA_REQUEST));
 		return ConsoleMessage.SUCCESS;
 	}
 }

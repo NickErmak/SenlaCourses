@@ -1,21 +1,20 @@
 package com.senla.library.manager;
 
-import static com.senla.library.util.CSVWorker.loadCSV;
-import static com.senla.library.util.CSVWorker.saveCSV;
-import static com.senla.library.util.CollectionHandler.parseToStringWithHeader;
+import static com.senla.library.csv.CSVHandler.CSVFileReader.read;
+import static com.senla.library.csv.CSVHandler.CSVFileWriter.write;
 
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 
 import com.senla.library.api.bean.IRequest;
 import com.senla.library.api.bean.Status;
 import com.senla.library.api.exception.NoSuchIdException;
+import com.senla.library.api.exception.NonParseableException;
 import com.senla.library.entity.Request;
 import com.senla.library.repository.RequestRepository;
 
 public class RequestManager {
-	private final static String[] CSV_HEAD = { "Id", "book Id", "date", "status" };
 	private final RequestRepository requestRepository;
 
 	public RequestManager(String filePath) {
@@ -30,6 +29,10 @@ public class RequestManager {
 	public IRequest getRequest(Integer requestId) throws NoSuchIdException {
 		return requestRepository.getRequest(requestId);
 	}
+	
+	public void refreshRequest(IRequest deprecatedRequest, IRequest refreshedRequest) {
+		requestRepository.refreshRequest(deprecatedRequest, refreshedRequest);
+	}
 
 	public List<IRequest> getRequests() {
 		return requestRepository.getRequests();
@@ -40,18 +43,21 @@ public class RequestManager {
 		request.setDate(new Date());
 	}
 
-	public void exportCSV(String filePath) {
-		saveCSV(filePath, parseToStringWithHeader(getRequests(), CSV_HEAD));
+	public void exportCSV(String filePath) throws NonParseableException {
+		List<IRequest> requests = getRequests();
+		if (!requests.isEmpty()) {
+			write(getRequests(), filePath);
+		}
 	}
 
-	public void importCSV(String filePath) {
-		ListIterator<String[]> listIterator = loadCSV(filePath).listIterator(1);
-		while (listIterator.hasNext()) {
-			IRequest requestCSV = new Request(listIterator.next());
+	public void importCSV(String filePath) throws NonParseableException {
+		Iterator<Request> iteratorCSV = read(Request.class, filePath).iterator();
+		while (iteratorCSV.hasNext()) {
+			IRequest requestCSV = iteratorCSV.next();
 			try {
 				IRequest request = getRequest(requestCSV.getId());
 				if (request != null) {
-					request = requestCSV;
+					refreshRequest(request, requestCSV);
 				}
 			} catch (NoSuchIdException e) {
 				addRequest(requestCSV);

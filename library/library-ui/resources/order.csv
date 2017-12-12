@@ -1,5 +1,0 @@
-id;date;name;books Id;total amount;status
-1022;28.11.2017;order1;1011;30.0;completed
-1032;;order2;;0.0;processing
-1012;;order3;1031, 1031;30.0;processing
-1042;01.12.2017;order4;1011, 1021;110.0;completed
