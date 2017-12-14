@@ -1,6 +1,6 @@
 #ignore unused files and folders in java workspace 
 
-bin/*
+.bin/*
 .settings/*
 
 
