@@ -1,4 +1,4 @@
-package com.senla.library.annotation.csv;
+package com.senla.library.api.annotation.csv;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

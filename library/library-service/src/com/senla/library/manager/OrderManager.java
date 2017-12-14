@@ -16,16 +16,17 @@ import com.senla.library.api.bean.IOrderBookRelation;
 import com.senla.library.api.bean.Status;
 import com.senla.library.api.exception.NoSuchIdException;
 import com.senla.library.api.exception.NonParseableException;
+import com.senla.library.api.repository.IOrderRepository;
 import com.senla.library.api.ui.ConsoleMessage;
 import com.senla.library.entity.Order;
-import com.senla.library.repository.OrderRepository;
+import com.senla.library.repository.RepositoryShell;
 
 public class OrderManager {
 	private static Logger logger = Logger.getLogger(OrderManager.class);
-	private final OrderRepository orderRepository;
+	private final IOrderRepository orderRepository;
 
 	public OrderManager(String filePath) {
-		orderRepository = OrderRepository.getInstance();
+		orderRepository = RepositoryShell.getOrderRepository();
 		orderRepository.readData(filePath);
 	}
 
@@ -36,7 +37,7 @@ public class OrderManager {
 	public IOrder getOrder(int orderId) throws NoSuchIdException {
 		return orderRepository.getOrder(orderId);
 	}
-	
+
 	public void refreshOrder(IOrder deprecatedOrder, IOrder refreshedOrder) {
 		orderRepository.refreshOrder(deprecatedOrder, refreshedOrder);
 	}

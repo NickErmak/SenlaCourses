@@ -13,9 +13,9 @@ import org.apache.log4j.Logger;
 
 import com.opencsv.CSVParser;
 import com.opencsv.CSVParserBuilder;
-import com.senla.library.annotation.csv.CsvConstructor;
-import com.senla.library.annotation.csv.CsvEntity;
-import com.senla.library.annotation.csv.CsvProperty;
+import com.senla.library.api.annotation.csv.CsvConstructor;
+import com.senla.library.api.annotation.csv.CsvEntity;
+import com.senla.library.api.annotation.csv.CsvProperty;
 import com.senla.library.api.bean.IEntity;
 import com.senla.library.api.exception.NonParseableException;
 

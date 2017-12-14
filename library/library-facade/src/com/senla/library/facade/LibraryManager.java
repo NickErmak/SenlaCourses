@@ -1,5 +1,7 @@
 package com.senla.library.facade;
 
+import static com.senla.library.ioc.DIHandler.injectDependencies;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -26,6 +28,7 @@ import com.senla.library.api.config.PropertyUnit;
 import com.senla.library.api.exception.NoSuchIdException;
 import com.senla.library.api.exception.NonParseableException;
 import com.senla.library.api.facade.ILibraryManager;
+import com.senla.library.api.service.IRequestManager;
 import com.senla.library.api.ui.ConsoleMessage;
 import com.senla.library.config.reader.PropertyReader;
 import com.senla.library.manager.BookManager;
@@ -36,10 +39,11 @@ public class LibraryManager implements ILibraryManager {
 	private static ILibraryManager instance;
 	private BookManager bookManager;
 	private OrderManager orderManager;
-	private RequestManager requestManager;
+	private IRequestManager requestManager;
 	private Map<PropertyUnit, String> properties;
 
 	private LibraryManager() {
+		injectDependencies();
 		reloadProperties();
 		bookManager = new BookManager(properties.get(PropertyUnit.DATA_BOOK));
 		orderManager = new OrderManager(properties.get(PropertyUnit.DATA_ORDER));

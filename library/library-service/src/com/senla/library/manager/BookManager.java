@@ -13,14 +13,15 @@ import com.senla.library.api.bean.IOrderBookRelation;
 import com.senla.library.api.bean.IRequest;
 import com.senla.library.api.exception.NoSuchIdException;
 import com.senla.library.api.exception.NonParseableException;
+import com.senla.library.api.repository.IBookRepository;
 import com.senla.library.entity.Book;
-import com.senla.library.repository.BookRepository;
+import com.senla.library.repository.RepositoryShell;
 
 public class BookManager {
-	private final BookRepository bookRepository;
+	private final IBookRepository bookRepository;
 
 	public BookManager(String filePath) {
-		bookRepository = BookRepository.getInstance();
+		bookRepository = RepositoryShell.getBookRepository();
 		bookRepository.readData(filePath);
 	}
 
@@ -31,7 +32,7 @@ public class BookManager {
 	public IBook getBook(int bookId) throws NoSuchIdException {
 		return bookRepository.getBook(bookId);
 	}
-	
+
 	public void refreshBook(IBook deprecatedBook, IBook refreshedBook) {
 		bookRepository.refreshBook(deprecatedBook, refreshedBook);
 	}
@@ -84,9 +85,9 @@ public class BookManager {
 		while (iteratorCSV.hasNext()) {
 			IBook bookCSV = iteratorCSV.next();
 			try {
-				IBook book = getBook(bookCSV.getId());				
-				if (book != null) {					
-					refreshBook(book, bookCSV);						
+				IBook book = getBook(bookCSV.getId());
+				if (book != null) {
+					refreshBook(book, bookCSV);
 				}
 			} catch (NoSuchIdException e) {
 				addBook(bookCSV);

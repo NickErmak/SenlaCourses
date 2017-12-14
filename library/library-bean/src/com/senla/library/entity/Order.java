@@ -7,10 +7,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.ListIterator;
 
-import com.senla.library.annotation.csv.CsvConstructor;
-import com.senla.library.annotation.csv.CsvEntity;
-import com.senla.library.annotation.csv.CsvProperty;
-import com.senla.library.annotation.csv.CsvProperty.PropertyType;
+import com.senla.library.api.annotation.csv.CsvConstructor;
+import com.senla.library.api.annotation.csv.CsvEntity;
+import com.senla.library.api.annotation.csv.CsvProperty;
+import com.senla.library.api.annotation.csv.CsvProperty.PropertyType;
 import com.senla.library.api.bean.IOrder;
 import com.senla.library.api.bean.IOrderBookRelation;
 import com.senla.library.api.bean.Status;

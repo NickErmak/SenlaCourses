@@ -4,10 +4,10 @@ import static com.senla.library.util.DateConverter.stringToDate;
 
 import java.util.Date;
 
-import com.senla.library.annotation.csv.CsvConstructor;
-import com.senla.library.annotation.csv.CsvEntity;
-import com.senla.library.annotation.csv.CsvProperty;
-import com.senla.library.annotation.csv.CsvProperty.PropertyType;
+import com.senla.library.api.annotation.csv.CsvConstructor;
+import com.senla.library.api.annotation.csv.CsvEntity;
+import com.senla.library.api.annotation.csv.CsvProperty;
+import com.senla.library.api.annotation.csv.CsvProperty.PropertyType;
 import com.senla.library.api.bean.IRequest;
 import com.senla.library.api.bean.Status;
 import com.senla.library.util.DateConverter;

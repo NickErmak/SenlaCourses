@@ -12,7 +12,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import com.opencsv.CSVWriter;
-import com.senla.library.annotation.csv.CsvProperty;
+import com.senla.library.api.annotation.csv.CsvProperty;
 import com.senla.library.api.bean.IEntity;
 import com.senla.library.api.exception.NonParseableException;
 import com.senla.library.util.DateConverter;

@@ -11,17 +11,20 @@ import com.senla.library.api.bean.IRequest;
 import com.senla.library.api.bean.Status;
 import com.senla.library.api.exception.NoSuchIdException;
 import com.senla.library.api.exception.NonParseableException;
+import com.senla.library.api.repository.IRequestRepository;
+import com.senla.library.api.service.IRequestManager;
 import com.senla.library.entity.Request;
-import com.senla.library.repository.RequestRepository;
+import com.senla.library.repository.RepositoryShell;
 
-public class RequestManager {
-	private final RequestRepository requestRepository;
-
+public class RequestManager implements IRequestManager{
+	
+	private IRequestRepository requestRepository;
+	
 	public RequestManager(String filePath) {
-		requestRepository = RequestRepository.getInstance();
+		requestRepository = RepositoryShell.getRequestRepository();
 		requestRepository.readData(filePath);
 	}
-
+	
 	public void addRequest(IRequest request) {
 		requestRepository.addRequest(request);
 	}
@@ -29,7 +32,7 @@ public class RequestManager {
 	public IRequest getRequest(Integer requestId) throws NoSuchIdException {
 		return requestRepository.getRequest(requestId);
 	}
-	
+
 	public void refreshRequest(IRequest deprecatedRequest, IRequest refreshedRequest) {
 		requestRepository.refreshRequest(deprecatedRequest, refreshedRequest);
 	}

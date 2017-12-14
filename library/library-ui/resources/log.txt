@@ -242,3 +242,6 @@ ERROR   2017-12-12 09:55:56,656 [main] com.senla.library.csv.CSVHandler.CSVFileR
 ERROR   2017-12-12 09:55:56,664 [main] com.senla.library.ui.Builder  - java.lang.IndexOutOfBoundsException: Index: 1
 ERROR   2017-12-12 09:57:33,666 [main] com.senla.library.util.DateConverter  - java.text.ParseException: Unparseable date: "null"
 ERROR   2017-12-12 09:57:33,668 [main] com.senla.library.util.DateConverter  - java.text.ParseException: Unparseable date: "null"
+ERROR   2017-12-13 16:56:45,825 [main] com.senla.library.csv.CSVHandler.CSVFileReader  - java.io.FileNotFoundException: resources\csv\request.csv (Не удается найти указанный файл)
+ERROR   2017-12-13 17:19:39,533 [main] com.senla.library.csv.CSVHandler.CSVFileReader  - java.io.FileNotFoundException: resources\csv\request.csv (Не удается найти указанный файл)
+ERROR   2017-12-13 18:35:49,131 [main] com.senla.library.csv.CSVHandler.CSVFileReader  - java.io.FileNotFoundException: resources\csv\request.csv (Не удается найти указанный файл)
