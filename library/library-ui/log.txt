@@ -1,6 +1,0 @@
-ERROR   2017-11-29 18:19:42,528 [main] com.senla.library.ui.Builder  - java.lang.ArrayIndexOutOfBoundsException: 1
-ERROR   2017-11-29 18:19:46,733 [main] com.senla.library.util.FileWorker  - [Ljava.lang.StackTraceElement;@1b4fb997
-ERROR   2017-11-29 18:19:46,733 [main] com.senla.library.util.FileWorker  - [Ljava.lang.StackTraceElement;@deb6432
-ERROR   2017-11-29 18:21:46,870 [main] com.senla.library.ui.Builder  - NoSuchIdException [id=21]
-ERROR   2017-11-29 18:22:10,599 [main] com.senla.library.util.FileWorker  - [Ljava.lang.StackTraceElement;@2957fcb0
-ERROR   2017-11-29 18:22:10,600 [main] com.senla.library.util.FileWorker  - [Ljava.lang.StackTraceElement;@1376c05c
