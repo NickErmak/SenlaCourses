@@ -13,10 +13,18 @@ public class Response implements IResponse, Serializable {
 	private List<? extends IEntity> entities;
 	private String message;
 
-	public Response(String message) {
+	@SuppressWarnings("unchecked")
+	public Response(String message, Object result) {
+		System.out.println("result = " + result);
 		this.message = message;		
 		returnOption = true;
-	}		
+		if (result instanceof List<?>) {
+			entities = (List<? extends IEntity>) result;
+		}
+		if (result instanceof String) {
+			this.message += result.toString();			
+		}
+	}
 	
 	@Override
 	public void completeMessage(String annex) {

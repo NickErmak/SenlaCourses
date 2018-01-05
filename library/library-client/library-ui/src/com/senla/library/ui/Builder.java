@@ -45,6 +45,7 @@ public class Builder {
 				IAction inputAction = (IAction) query.getActionInfo().get("inputAction");
 				IResponse inputResponse = sendQuery(inputAction.execute());
 				Printer.print(inputResponse);
+				query.getActionInfo().remove("inputAction");
 			}
 			Printer.print(query);
 			query.putInput(scanner.next() + scanner.nextLine());

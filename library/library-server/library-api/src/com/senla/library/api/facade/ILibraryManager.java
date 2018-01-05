@@ -21,7 +21,7 @@ public interface ILibraryManager {
 	public List<IBook> showBooks(SortBookType type);
 	public List<IBook> showBookQuery(SortBookQueryType type);
 	public List<IBook> showUnsoldBooks() throws NoSuchIdException;
-	public String showBookDescription(int bookId) throws NoSuchIdException;
+	public String showBookDescription(String bookId) throws NoSuchIdException;
 	public ConsoleMessage addOrder(IOrder order);
 	public ConsoleMessage addBookToOrder(IOrderBookRelation relation) throws NoSuchIdException;
 	public ConsoleMessage completeOrder(int id) throws NoSuchIdException;
@@ -39,5 +39,5 @@ public interface ILibraryManager {
 	public ConsoleMessage exportCSVOrder () throws NonParseableException;
 	public ConsoleMessage exportCSVRequest () throws NonParseableException;
 	public ConsoleMessage importCSVOrder() throws NonParseableException;
-	public ConsoleMessage importCSVRequest() throws NonParseableException;
+	public ConsoleMessage importCSVRequest() throws NonParseableException;	
 }

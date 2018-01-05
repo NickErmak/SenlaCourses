@@ -128,8 +128,8 @@ public class LibraryManager implements ILibraryManager, Serializable {
 	}
 
 	@Override
-	public String showBookDescription(int bookId) throws NoSuchIdException {
-		return bookManager.getBook(bookId).getDescription();
+	public String showBookDescription(String bookId) throws NoSuchIdException {
+		return bookManager.getBook(Integer.valueOf(bookId)).getDescription();
 	}
 
 	@Override

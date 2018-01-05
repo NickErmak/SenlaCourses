@@ -248,3 +248,4 @@ ERROR   2017-12-13 18:35:49,131 [main] com.senla.library.csv.CSVHandler.CSVFileR
 ERROR   2017-12-29 07:13:52,331 [main] com.senla.library.ui.Builder  - java.net.SocketException: Connection reset
 ERROR   2017-12-29 07:13:52,346 [main] com.senla.library.ui.Builder  - java.net.SocketException: Connection reset
 ERROR   2017-12-29 08:22:40,698 [main] com.senla.library.ui.socket.ClientSocket  - java.net.SocketException: Connection reset
+ERROR   2017-12-29 09:07:42,084 [main] com.senla.library.ui.Builder  - java.util.NoSuchElementException

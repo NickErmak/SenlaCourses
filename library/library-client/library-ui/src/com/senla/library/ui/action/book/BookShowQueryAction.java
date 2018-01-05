@@ -4,8 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.senla.library.api.ui.IAction;
-import com.senla.library.api.ui.menu.BookMenuType;
-import com.senla.library.api.ui.menu.MainMenuType;
 import com.senla.library.transmission.Query;
 
 public class BookShowQueryAction implements IAction{
@@ -13,8 +11,7 @@ public class BookShowQueryAction implements IAction{
 	@Override
 	public Query execute() {
 		Map<String, Object> actionInfo = new HashMap<>();
-		actionInfo.put("type", MainMenuType.BOOK);
-		actionInfo.put("bookType", BookMenuType.SHOW_QUERY);		
+		actionInfo.put("method", "showBookQuery");				
 		return new Query(actionInfo);
 	}
 }

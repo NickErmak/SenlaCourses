@@ -6,8 +6,6 @@ import java.util.Map;
 import com.senla.library.api.comparator.book.SortBookType;
 import com.senla.library.api.transmitter.response.ResponseBookMessage;
 import com.senla.library.api.ui.IAction;
-import com.senla.library.api.ui.menu.BookMenuType;
-import com.senla.library.api.ui.menu.MainMenuType;
 import com.senla.library.transmission.Query;
 
 public class BookShowAllByPriceAction implements IAction {
@@ -15,10 +13,9 @@ public class BookShowAllByPriceAction implements IAction {
 	@Override
 	public Query execute() {
 		Map<String, Object> actionInfo = new HashMap<>();		
-		actionInfo.put("type", MainMenuType.BOOK);
-		actionInfo.put("bookType", BookMenuType.SHOW_ALL);
-		actionInfo.put("bookSortType", SortBookType.BY_PRICE);
 		actionInfo.put("message", ResponseBookMessage.SHOW_ALL_BY_PRICE);
+		actionInfo.put("method", "showBooks");		
+		actionInfo.put("parameter", SortBookType.BY_PRICE);
 		return new Query(actionInfo);
 	}
 }

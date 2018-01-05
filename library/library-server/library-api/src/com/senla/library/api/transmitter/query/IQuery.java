@@ -5,5 +5,5 @@ import java.util.Map;
 public interface IQuery {
 	
 	public Map<String, Object> getActionInfo();
-	public void putInput(String input);
+	public void putInput(Object input);
 }

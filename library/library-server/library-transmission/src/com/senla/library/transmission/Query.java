@@ -15,8 +15,8 @@ public class Query implements IQuery, Serializable{
 	}
 	
 	@Override
-	public void putInput(String input) {
-		actionInfo.put("input", input);
+	public void putInput(Object input) { 
+		actionInfo.put("parameter", input);
 	}
 	
 	@Override
