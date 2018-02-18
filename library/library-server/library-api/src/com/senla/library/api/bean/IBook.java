@@ -1,17 +1,5 @@
 package com.senla.library.api.bean;
 
-import java.util.Date;
-import java.util.List;
-
-public interface IBook extends IEntity{	
-	
-	public void setOnStock(boolean onStock);
-	public boolean isOnStock();
-	public void setRequestId(int requestId);
-	public List<IOrderBookRelation> getOrderBookList();
-	public Date getPublicationDate();
-	public double getPrice();
-	public String getTitle();
-	public Integer getRequestId();	
-	public String getDescription();	
+public interface IBook extends IEntity{		
+	void setStatus(BookStatus bookStatus);
 }

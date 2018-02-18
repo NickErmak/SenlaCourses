@@ -3,102 +3,55 @@ package com.senla.library.manager;
 import static com.senla.library.csv.CSVHandler.CSVFileReader.read;
 import static com.senla.library.csv.CSVHandler.CSVFileWriter.write;
 
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.log4j.Logger;
-
 import com.senla.library.api.bean.IOrder;
-import com.senla.library.api.bean.IOrderBookRelation;
-import com.senla.library.api.bean.Status;
+import com.senla.library.api.bean.OrderStatus;
+import com.senla.library.api.dao.IOrderDAO;
 import com.senla.library.api.exception.NoSuchIdException;
 import com.senla.library.api.exception.NonParseableException;
-import com.senla.library.api.repository.IOrderRepository;
-import com.senla.library.api.ui.ConsoleMessage;
+import com.senla.library.dao.entityDAO.DaoShell;
 import com.senla.library.entity.Order;
-import com.senla.library.repository.RepositoryShell;
 
 public class OrderManager {
-	private static Logger logger = Logger.getLogger(OrderManager.class);
-	private final IOrderRepository orderRepository;
+	private final IOrderDAO orderDAO;
 
 	public OrderManager(String filePath) {
-		orderRepository = RepositoryShell.getOrderRepository();
-		orderRepository.readData(filePath);
+		orderDAO = DaoShell.getOrderDAO();
 	}
 
 	public void addOrder(IOrder order) {
-		orderRepository.addOrder(order);
+		orderDAO.add(order);
 	}
 
-	public IOrder getOrder(int orderId) throws NoSuchIdException {
-		return orderRepository.getOrder(orderId);
+	public IOrder getOrder(int orderId) {
+		return orderDAO.get(orderId);
 	}
 
-	public void refreshOrder(IOrder deprecatedOrder, IOrder refreshedOrder) {
-		orderRepository.refreshOrder(deprecatedOrder, refreshedOrder);
+	public void updateOrder(IOrder order) {
+		orderDAO.update(order);
 	}
 
-	public List<IOrder> getOrders() {
-		return orderRepository.getOrders();
+	@SuppressWarnings("unchecked")
+	public List<Order> getOrders() {
+		return (List<Order>) orderDAO.getAll();
 	}
 
-	public void addOrderBookRelation(IOrderBookRelation relation, double bookPrice) throws NoSuchIdException {
-		IOrder order = getOrder(relation.getOrderId());
-		order.setTotalAmount(order.getTotalAmount() + bookPrice);
-		order.getOrderBookList().add(relation);
-	}
-
-	public void completeOrder(int orderId) throws NoSuchIdException {
-		IOrder order = orderRepository.getOrder(orderId);
-		order.setStatus(Status.COMPLETED);
+	public void completeOrder(IOrder order) throws NoSuchIdException {
+		order.setStatus(OrderStatus.COMPLETED);
 		order.setDate(new Date());
+		updateOrder(order);
 	}
 
-	public void cancelOrder(int id) throws NoSuchIdException {
-		getOrder(id).setStatus(Status.CANCELLED);
-	}
-
-	public List<IOrder> sortOrderList(Comparator<IOrder> comparator) {
-		Collections.sort(getOrders(), comparator);
-		return getOrders();
-	}
-
-	public double getTotalIncome(Date dateBefore, Date dateAfter) {
-		double income = 0;
-		for (IOrder order : orderRepository.getOrders()) {
-			if (order != null) {
-				income += order.getTotalAmount();
-			}
-		}
-		return income;
-	}
-
-	public int getCompletedOrderQuantity(Date dateBefore, Date dateAfter) {
-		Integer count = 0;
-		for (IOrder order : orderRepository.getOrders()) {
-			if (order != null && order.getStatus() == Status.COMPLETED) {
-				++count;
-			}
-		}
-		return count;
-	}
-
-	public ConsoleMessage cloneOrder(int id) throws NoSuchIdException {
-		try {
-			addOrder((IOrder) getOrder(id).clone());
-			return ConsoleMessage.SUCCESS;
-		} catch (CloneNotSupportedException e) {
-			logger.error(e);
-			return ConsoleMessage.ERROR_NO_CLONEABLE;
-		}
+	public void cancelOrder(IOrder order) throws NoSuchIdException {
+		order.setStatus(OrderStatus.CANCELLED);
+		updateOrder(order);
 	}
 
 	public void exportCSV(String filePath) throws NonParseableException {
-		List<IOrder> orders = getOrders();
+		List<Order> orders = getOrders();
 		if (!orders.isEmpty()) {
 			write(getOrders(), filePath);
 		}
@@ -108,18 +61,10 @@ public class OrderManager {
 		Iterator<Order> iteratorCSV = read(Order.class, filePath).iterator();
 		while (iteratorCSV.hasNext()) {
 			IOrder orderCSV = iteratorCSV.next();
-			try {
-				IOrder order = getOrder(orderCSV.getId());
-				if (order != null) {
-					refreshOrder(order, orderCSV);
-				}
-			} catch (NoSuchIdException e) {
-				addOrder(orderCSV);
+			IOrder order = getOrder(orderCSV.getId());
+			if (order != null) {
+				updateOrder(order);
 			}
 		}
-	}
-
-	public void saveData(String filePath) {
-		orderRepository.saveData(filePath);
 	}
 }

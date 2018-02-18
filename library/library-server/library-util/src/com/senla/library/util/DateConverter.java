@@ -8,7 +8,7 @@ import org.apache.log4j.Logger;
 
 public class DateConverter {
 	private static Logger logger = Logger.getLogger(DateConverter.class);
-	private static SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+	private static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
 	public static String dateToString(Date date) {
 		if (date == null)
@@ -20,6 +20,7 @@ public class DateConverter {
 		try {
 			return dateFormat.parse(date);
 		} catch (ParseException e) {
+			e.printStackTrace();
 			logger.error(e);
 			return null;
 		}

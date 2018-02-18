@@ -17,6 +17,7 @@ public class BookRepository implements IBookRepository {
 
 	private BookRepository() {
 		books = new ArrayList<>();
+		
 	}
 
 	public static IBookRepository getInstance() {
@@ -24,7 +25,7 @@ public class BookRepository implements IBookRepository {
 			instance = new BookRepository();
 		}
 		return instance;
-	}
+	} 
 
 	@Override
 	public void addBook(IBook book) {

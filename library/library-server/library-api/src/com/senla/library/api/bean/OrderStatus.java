@@ -1,15 +1,15 @@
 package com.senla.library.api.bean;
 
-public enum Status {
+public enum OrderStatus {
 	PROCESSING("processing"), COMPLETED("completed"), CANCELLED("cancelled");
 
 	private String statusType;
 
-	private Status(String statusType) {
+	private OrderStatus(String statusType) {
 		this.statusType = statusType;
 	}	
 
-	public static Status getStatus(String status) {
+	public static OrderStatus getStatus(String status) {
 		if (status.equals(PROCESSING.statusType))
 			return PROCESSING;
 		else if (status.equals(COMPLETED.statusType))

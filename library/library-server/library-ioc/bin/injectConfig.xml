@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <injections>
 	<field>
-		<name>bookRepository</name>
-		<value>BookRepository</value>
+		<name>bookDAOy</name>
+		<value>BookDAO</value>
 	</field>
 	<field>
-		<name>orderRepository</name>
-		<value>OrderRepository</value>
-	</field>
-	<field>
-		<name>requestRepository</name>
-		<value>RequestRepository</value>
-	</field>
+		<name>orderDAO</name>
+		<value>OrderDAO</value>
+	</field>	
 </injections>
