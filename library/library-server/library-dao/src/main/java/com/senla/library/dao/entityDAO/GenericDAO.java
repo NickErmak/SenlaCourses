@@ -79,7 +79,8 @@ public abstract class GenericDAO<T extends IEntity> implements IGenericDAO<T> {
 
 	private ResultSet executeQuery(String query) throws Exception {
 		ResultSet resultSet = null;
-		try (PreparedStatement preStatement = connectionHolder.getConnection().prepareStatement(query)) {			
+		try {			
+			PreparedStatement preStatement = connectionHolder.getConnection().prepareStatement(query);
 			resultSet = preStatement.executeQuery();
 		} catch (SQLException e) {
 			logger.error(e);	
