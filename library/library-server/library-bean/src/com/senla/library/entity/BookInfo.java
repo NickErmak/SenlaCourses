@@ -14,6 +14,7 @@ import com.senla.library.util.DateConverter;;
 public class BookInfo extends Entity{
 
 	@Id
+	@ColumnDAO(name = "id") 
 	private int id;		
 	@ColumnDAO(name = "title") 
 	private String title;
@@ -87,7 +88,7 @@ public class BookInfo extends Entity{
 
 	@Override
 	public String toString() {
-		return "BookInfo [title=" + title + ", publicationDate=" + dateToString(publicationDate) + ", price=" + price
+		return "BookInfo [id=" + id + ", title=" + title + ", publicationDate=" + dateToString(publicationDate) + ", price=" + price
 				+ ", description=" + description + "]";
 	}	
 	

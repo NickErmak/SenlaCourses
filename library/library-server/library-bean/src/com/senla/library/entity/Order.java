@@ -8,6 +8,7 @@ import com.senla.library.api.annotation.dao.BindingTable;
 import com.senla.library.api.annotation.dao.ColumnDAO;
 import com.senla.library.api.annotation.dao.EntityDAO;
 import com.senla.library.api.annotation.dao.Id;
+import com.senla.library.api.bean.IBook;
 import com.senla.library.api.bean.IOrder;
 import com.senla.library.api.bean.OrderStatus;
 import com.senla.library.util.DateConverter;
@@ -15,6 +16,7 @@ import com.senla.library.util.DateConverter;
 @EntityDAO(table = "orders", pk = "id")
 public class Order extends Entity implements IOrder, Cloneable {	
 	@Id
+	@ColumnDAO(name = "id")
 	private int id;		
 	@ColumnDAO(name = "date")
 	private Date date;	
@@ -23,13 +25,13 @@ public class Order extends Entity implements IOrder, Cloneable {
 	@ColumnDAO(name = "status")
 	private OrderStatus status;	
 	@BindingTable(mappedBy = "order_id", oppositeMappedBy = "book_id")
-	private List<Book> books;
+	private List<IBook> books;
 	
 	public Order() {
 		books = new ArrayList<>();
 	}
 	
-	public Order(int id, Date date, double totalAmount, OrderStatus status, List<Book> books) {
+	public Order(int id, Date date, double totalAmount, OrderStatus status, List<IBook> books) {
 		this.id = id;
 		this.date = date;
 		this.totalAmount = totalAmount;
@@ -85,7 +87,7 @@ public class Order extends Entity implements IOrder, Cloneable {
 		this.status = OrderStatus.getStatus(status);
 	}
 
-	public List<Book> getBooks() {
+	public List<IBook> getBooks() {
 		return books;
 	}
 

@@ -1,19 +1,20 @@
 package com.senla.library.dao.entityDAO;
 
-import static com.senla.library.dao.connection.ConnectionHolder.getConnection;
-
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
-
-import com.senla.library.api.annotation.di.Inject;
 import com.senla.library.api.bean.IEntity;
 import com.senla.library.api.dao.IGenericDAO;
 import com.senla.library.api.dao.SortingCriteria;
@@ -22,66 +23,77 @@ import com.senla.library.dao.EntityManager;
 import com.senla.library.dao.connection.ConnectionHolder;
 import com.senla.library.dao.util.QueryGenerator;
 
-public abstract class GenericDAO implements IGenericDAO {
+public abstract class GenericDAO<T extends IEntity> implements IGenericDAO<T> {
 	private static Logger logger = Logger.getLogger(GenericDAO.class);
-	@Inject
-	private EntityManager entityManager;	
+	private final ConnectionHolder connectionHolder;
+	private EntityManager entityManager;
 
-	public GenericDAO() {
+	public GenericDAO() throws Exception {
 		entityManager = new EntityManager();
+		connectionHolder = ConnectionHolder.getinstance();
 	}
 
 	@Override
-	public <T extends IEntity> void update(T entity) {
+	public void update(T entity) throws Exception {
 		EntityInfo entityInfo = entityManager.getEntityInfo(entity.getClass());
 		executeUpdate(QueryGenerator.getUpdateQuery(entityInfo, entity));
 	}
 
 	@Override
-	public <T extends IEntity> void add(T entity) {
+	public void add(T entity) throws Exception {
 		EntityInfo entityInfo = entityManager.getEntityInfo(entity.getClass());
 		executeUpdate(QueryGenerator.getInsertQuery(entityInfo, entity));
 	}
 
 	@Override
-	public <T extends IEntity> List<T> getAll(Class<T> clazz, SortingCriteria sortingCriteria) {
+	public List<T> getAll(Class<? extends T> clazz) throws Exception {
+		return getAll(clazz, null);
+	}
+
+	@Override
+	public List<T> getAll(Class<? extends T> clazz, SortingCriteria sortingCriteria) throws Exception {
+		return getAll(clazz, sortingCriteria, null, null);
+	}
+
+	@Override
+	public List<T> getAll(Class<? extends T> clazz, SortingCriteria sortingCriteria, Field date, Date dateFrom) throws Exception {
+		return getAll(clazz, sortingCriteria, date, dateFrom, null);
+	}
+
+	@Override
+	public List<T> getAll(Class<? extends T> clazz, SortingCriteria sortingCriteria, Field date, Date dateFrom,
+			Date dateTo) throws Exception {
 		EntityInfo entityInfo = entityManager.getEntityInfo(clazz);
-		String query = QueryGenerator.getSelectAllQuery(entityInfo, sortingCriteria);
+		String query = QueryGenerator.getSelectAllQuery(entityInfo, sortingCriteria, date, dateFrom, dateTo);
 		ResultSet resultSet = executeQuery(query);
 		return createEntities(entityInfo, resultSet);
 	}
 
 	@Override
-	public <T extends IEntity> List<T> getAll(Class<T> clazz) {
-		return getAll(clazz, SortingCriteria.ID);
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public <T extends IEntity> T get(Class<T> clazz, int id) {
+	public T get(Class<? extends T> clazz, int id) throws Exception {
 		EntityInfo entityInfo = entityManager.getEntityInfo(clazz);
 		String query = QueryGenerator.getSelectByPKQuery(entityInfo, id);
 		ResultSet resultSet = executeQuery(query);
-		return (T) createEntities(entityInfo, resultSet).get(0);
+		return createEntities(entityInfo, resultSet).get(0);
 	}
 
-	private ResultSet executeQuery(String query) {
+	private ResultSet executeQuery(String query) throws Exception {
 		ResultSet resultSet = null;
-		try {
-			PreparedStatement preStatement = getConnection().prepareStatement(query);
+		try (PreparedStatement preStatement = connectionHolder.getConnection().prepareStatement(query)) {			
 			resultSet = preStatement.executeQuery();
 		} catch (SQLException e) {
-			logger.error(e);
+			logger.error(e);	
+			throw new Exception(e);
 		}
 		return resultSet;
 	}
 
-	private void executeUpdate(String query) {
-		System.out.println(query);
+	private void executeUpdate(String query) throws Exception {
 		try {
-			getConnection().prepareStatement(query).executeUpdate();
+			connectionHolder.getConnection().prepareStatement(query).executeUpdate();
 		} catch (SQLException e) {
-			logger.error(e);
+			logger.error(e);	
+			throw new Exception(e);
 		}
 	}
 
@@ -93,41 +105,42 @@ public abstract class GenericDAO implements IGenericDAO {
 		return setMethod.toString();
 	}
 
-	private <T extends IEntity> T createEntity(ResultSet resultSet, EntityInfo entityInfo, T newEntity) {
-		try {
+	private T createEntity(ResultSet resultSet, EntityInfo entityInfo, T newEntity)
+			throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, SQLException,
+			NoSuchMethodException, SecurityException {
+		
 			Iterator<String> columnsIterator = entityInfo.getColumns().iterator();
 			while (columnsIterator.hasNext()) {
 				String columnName = columnsIterator.next();
 				Method setMethod = newEntity.getClass().getMethod(getSetMethod(columnName), String.class);
-				setMethod.invoke(newEntity, resultSet.getString(columnName));
-			}
-		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | SQLException
-				| NoSuchMethodException | SecurityException e) {
-			logger.error(e);
-		}
+				setMethod.invoke(newEntity, resultSet.getString(entityInfo.getTableName() + "." + columnName));
+			}		
 		return newEntity;
 	}
 
 	@SuppressWarnings("unchecked")
-	private <T extends IEntity> List<T> createEntities(EntityInfo entityInfo, ResultSet resultSet) {
-		List<T> entities = new ArrayList<>();
+	private List<T> createEntities(EntityInfo entityInfo, ResultSet resultSet) throws Exception {
+		Map<String, T> entities = new HashMap<>();
 		Class<T> clazz = (Class<T>) entityInfo.getClazz();
 		try {
 			while (resultSet.next()) {
-				T newEntity = clazz.newInstance();
-				newEntity = createEntity(resultSet, entityInfo, newEntity);
-
-				Iterator<EntityInfo> relationsManyToOne = entityManager.getJoinColumnsManyToOne(clazz).iterator();
-				while (relationsManyToOne.hasNext()) {
-					EntityInfo relationEntityInfo = relationsManyToOne.next();
-					Class<T> clazzRelation = (Class<T>) relationEntityInfo.getClazz();
-					T newRelation = clazzRelation.newInstance();
-					newRelation = createEntity(resultSet, relationEntityInfo, newRelation);
-					Method setMethod = clazz.getDeclaredMethod(getSetMethod(relationEntityInfo.getTableName()),
-							clazzRelation);
-					setMethod.invoke(newEntity, newRelation);
+				String uniqueKey = entityInfo.getTableName() + resultSet.getString(entityInfo.getPk());
+				T newEntity;
+				if (entities.containsKey(uniqueKey)) {
+					newEntity = entities.get(uniqueKey);
+				} else {
+					newEntity = createEntity(resultSet, entityInfo, clazz.newInstance());
+					Iterator<EntityInfo> relationsManyToOne = entityManager.getJoinColumnsManyToOne(clazz).iterator();
+					while (relationsManyToOne.hasNext()) {
+						EntityInfo relationEntityInfo = relationsManyToOne.next();
+						Class<T> clazzRelation = (Class<T>) relationEntityInfo.getClazz();
+						T newRelation = clazzRelation.newInstance();
+						newRelation = createEntity(resultSet, relationEntityInfo, newRelation);
+						Method setMethod = clazz.getDeclaredMethod(getSetMethod(relationEntityInfo.getTableName()),
+								clazzRelation);
+						setMethod.invoke(newEntity, newRelation);
+					}
 				}
-
 				Iterator<EntityInfo> relationsOneToMany = entityManager.getJoinColumnsOneToMany(clazz).iterator();
 				while (relationsOneToMany.hasNext()) {
 					EntityInfo relationEntityInfo = relationsOneToMany.next();
@@ -137,16 +150,26 @@ public abstract class GenericDAO implements IGenericDAO {
 					newRelation = createEntity(resultSet, relationEntityInfo, newRelation);
 					methodAddRelation.invoke(newEntity, newRelation);
 				}
-				entities.add(newEntity);
+				entities.put(uniqueKey, newEntity);
 			}
 		} catch (InstantiationException | IllegalAccessException | SecurityException | InvocationTargetException
 				| NoSuchMethodException | IllegalArgumentException | SQLException e) {
-			logger.error(e);
+			logger.error(e);	
+			throw new Exception(e);
 		}
-		return entities;
+		return new ArrayList<T>(entities.values());
+	}
+	
+	public Connection getConnection() throws SQLException {
+		return connectionHolder.getConnection();
 	}
 
-	public void close() {
-		ConnectionHolder.closeConnection();
+	public void exit() throws Exception {
+		try {
+			connectionHolder.closeConnection();
+		} catch (SQLException e) {			
+			logger.error(e);
+			throw new Exception(e);
+		}
 	}
 }

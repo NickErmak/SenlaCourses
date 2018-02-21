@@ -34,17 +34,8 @@ public class DIHandler {
 					injectField.set(null, injectClass.newInstance());
 				}
 			}
-		} catch (IllegalArgumentException | IllegalAccessException e) {
-			logger.error(e);
-		} catch (InstantiationException e) {
-			logger.error(e);
-		} catch (InvocationTargetException e) {
-			logger.error(e);
-		} catch (NoSuchMethodException e) {
-			logger.error(e);
-		} catch (SecurityException e) {
-			logger.error(e);
-		} catch (ClassNotFoundException e) {
+		} catch (IllegalArgumentException | IllegalAccessException | ClassNotFoundException | InvocationTargetException
+				| NoSuchMethodException | SecurityException | InstantiationException e) {
 			logger.error(e);
 		}
 	}

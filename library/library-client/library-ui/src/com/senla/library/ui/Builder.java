@@ -61,8 +61,7 @@ public class Builder {
 					notifyNavigator(ConsoleMessage.START);
 				} else {
 					notifyNavigator(ConsoleMessage.NO_MESSAGE);
-				}
-				return false;
+				}				
 			}
 			IMenuItem menuItem = currentMenu.getMenuItems().get(indexInput - 1);
 			if (menuItem.doAction() != null) {
@@ -80,23 +79,17 @@ public class Builder {
 				previousMenu.push(currentMenu);
 				currentMenu = menuItem.getNextMenu();
 				notifyNavigator(ConsoleMessage.NO_MESSAGE);
-				return false;
 			}
 		} catch (NumberFormatException e) {
 			notifyNavigator(ConsoleMessage.ERROR_INCORRECT_INPUT);
 			scanner.next();
 			logger.error(e);
-			return false;
 		} catch (NoSuchElementException | IndexOutOfBoundsException | EmptyStackException e) {
 			notifyNavigator(ConsoleMessage.ERROR_NO_SUCH_ITEM);
 			logger.error(e);
-			return false;
-		} catch (IOException e) {
-			logger.error(e);
-			return false;
-		} catch (ClassNotFoundException e) {
-			logger.error(e);
-			return false;
+		} catch (IOException | ClassNotFoundException e) {
+			logger.error(e);	
 		}
+		return false;
 	}
 }

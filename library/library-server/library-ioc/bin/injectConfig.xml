@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <injections>
 	<field>
-		<name>bookDAOy</name>
+		<name>bookDAO</name>
 		<value>BookDAO</value>
 	</field>
 	<field>

@@ -13,6 +13,7 @@ import com.senla.library.util.DateConverter;
 @EntityDAO(table = "books", pk = "id")
 public class Book extends Entity implements IBook, Cloneable {	
 	@Id	
+	@ColumnDAO(name = "id")
 	private int id;		
 	@ManyToOne(mappedBy = "book_id")
 	private BookInfo bookInfo;

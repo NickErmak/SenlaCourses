@@ -60,17 +60,19 @@ public class LibraryManager implements Serializable {
 		bookManager.writeOffBook(book);		
 	}
 
-	public List<IBook> showBooks(SortingCriteria sortingCriteria) {
+	public List<IBook> getBooks(SortingCriteria sortingCriteria) {
 		return bookManager.getBooks(sortingCriteria);
 	}
 
 	
-	public List<IBook> showUnsoldBooks() {
-		
+	public List<IBook> getUnsoldBooks(SortingCriteria sortingCriteria) {
+		reloadProperties();
+		int unsoldMonthAmount = Integer.valueOf(properties.get(PropertyUnit.UNSOLD_MONTH));
+		return bookManager.getUnsoldBooks(sortingCriteria, unsoldMonthAmount);
 	}
 
-	public String showBookDescription(String bookId) {
-		
+	public String getBookDescription(String bookId) {
+		return null;
 	}
 	
 	public ConsoleMessage exportCSVBook() throws NonParseableException {
@@ -105,9 +107,9 @@ public class LibraryManager implements Serializable {
 		return ConsoleMessage.SUCCESS;
 	}
 
-	@Override
-	public List<IOrder> showOrders(SortingCriteria sortingCriteria) {
-		return orderManager.getOrders();
+	
+	public List<IOrder> getOrders(SortingCriteria sortingCriteria) {		
+			return orderManager.getOrders();		
 	}
 
 	@Override
@@ -141,9 +143,9 @@ public class LibraryManager implements Serializable {
 		return orderManager.cloneOrder(id);
 	}
 
-	@Override
-	public int showCompletedOrderQuantity(Date dateBefore, Date dateAfter) {
-		return orderManager.getCompletedOrderQuantity(dateBefore, dateAfter);
+	
+	public int getCompletedOrderCount(Date dateFrom, Date dateTo) {
+		return orderManager.getCompletedOrderCount(dateFrom, dateTo);
 	}
 
 	@Override
