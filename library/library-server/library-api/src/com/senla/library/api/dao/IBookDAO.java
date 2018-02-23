@@ -6,7 +6,7 @@ import java.util.List;
 
 import com.senla.library.api.bean.IBook;
 
-public interface IBookDAO extends IGenericDAO<IBook> {
+public interface IBookDAO extends GenericDAO<IBook> {
 	
 	IBook getBook(int id) throws Exception;
 	List<IBook> getBooks() throws Exception;

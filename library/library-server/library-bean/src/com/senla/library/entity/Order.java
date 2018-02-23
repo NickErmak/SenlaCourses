@@ -2,13 +2,13 @@ package com.senla.library.entity;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import com.senla.library.api.annotation.dao.BindingTable;
 import com.senla.library.api.annotation.dao.ColumnDAO;
 import com.senla.library.api.annotation.dao.EntityDAO;
 import com.senla.library.api.annotation.dao.Id;
-import com.senla.library.api.bean.IBook;
 import com.senla.library.api.bean.IOrder;
 import com.senla.library.api.bean.OrderStatus;
 import com.senla.library.util.DateConverter;
@@ -25,13 +25,13 @@ public class Order extends Entity implements IOrder, Cloneable {
 	@ColumnDAO(name = "status")
 	private OrderStatus status;	
 	@BindingTable(mappedBy = "order_id", oppositeMappedBy = "book_id")
-	private List<IBook> books;
+	private List<Book> books;
 	
 	public Order() {
 		books = new ArrayList<>();
 	}
 	
-	public Order(int id, Date date, double totalAmount, OrderStatus status, List<IBook> books) {
+	public Order(int id, Date date, double totalAmount, OrderStatus status, List<Book> books) {
 		this.id = id;
 		this.date = date;
 		this.totalAmount = totalAmount;
@@ -42,10 +42,6 @@ public class Order extends Entity implements IOrder, Cloneable {
 	public int getId() {
 		return id;
 	}
-
-	public void setId(int id) {
-		this.id = id;
-	}	
 	
 	public void setId(String id) {
 		this.id = Integer.valueOf(id);
@@ -87,12 +83,24 @@ public class Order extends Entity implements IOrder, Cloneable {
 		this.status = OrderStatus.getStatus(status);
 	}
 
-	public List<IBook> getBooks() {
+	public List<Book> getBooks() {
 		return books;
 	}
 
 	public void addBook(Book book) {
 		books.add(book);
+	}
+	
+	@Override
+	public IOrder clone() throws CloneNotSupportedException {
+		Order cloneOrder = (Order) super.clone();
+		cloneOrder.id = 0;
+		Iterator<Book> booksIterator = books.iterator();
+		while (booksIterator.hasNext()) {
+			Book cloneBook = booksIterator.next().clone();
+			cloneOrder.addBook(cloneBook);
+		}
+		return cloneOrder;
 	}
 
 	@Override

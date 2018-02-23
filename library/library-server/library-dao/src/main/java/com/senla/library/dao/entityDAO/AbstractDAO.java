@@ -15,20 +15,21 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+
 import com.senla.library.api.bean.IEntity;
-import com.senla.library.api.dao.IGenericDAO;
+import com.senla.library.api.dao.GenericDAO;
 import com.senla.library.api.dao.SortingCriteria;
 import com.senla.library.dao.EntityInfo;
 import com.senla.library.dao.EntityManager;
 import com.senla.library.dao.connection.ConnectionHolder;
 import com.senla.library.dao.util.QueryGenerator;
 
-public abstract class GenericDAO<T extends IEntity> implements IGenericDAO<T> {
+public abstract class AbstractDAO<T extends IEntity> implements GenericDAO<T> {
 	private static Logger logger = Logger.getLogger(GenericDAO.class);
 	private final ConnectionHolder connectionHolder;
 	private EntityManager entityManager;
 
-	public GenericDAO() throws Exception {
+	public AbstractDAO() throws Exception {
 		entityManager = new EntityManager();
 		connectionHolder = ConnectionHolder.getinstance();
 	}
@@ -56,7 +57,8 @@ public abstract class GenericDAO<T extends IEntity> implements IGenericDAO<T> {
 	}
 
 	@Override
-	public List<T> getAll(Class<? extends T> clazz, SortingCriteria sortingCriteria, Field date, Date dateFrom) throws Exception {
+	public List<T> getAll(Class<? extends T> clazz, SortingCriteria sortingCriteria, Field date, Date dateFrom)
+			throws Exception {
 		return getAll(clazz, sortingCriteria, date, dateFrom, null);
 	}
 
@@ -65,6 +67,7 @@ public abstract class GenericDAO<T extends IEntity> implements IGenericDAO<T> {
 			Date dateTo) throws Exception {
 		EntityInfo entityInfo = entityManager.getEntityInfo(clazz);
 		String query = QueryGenerator.getSelectAllQuery(entityInfo, sortingCriteria, date, dateFrom, dateTo);
+		System.out.println(query);
 		ResultSet resultSet = executeQuery(query);
 		return createEntities(entityInfo, resultSet);
 	}
@@ -79,21 +82,28 @@ public abstract class GenericDAO<T extends IEntity> implements IGenericDAO<T> {
 
 	private ResultSet executeQuery(String query) throws Exception {
 		ResultSet resultSet = null;
-		try {			
-			PreparedStatement preStatement = connectionHolder.getConnection().prepareStatement(query);
-			resultSet = preStatement.executeQuery();
+		PreparedStatement preparedStatement = null;
+		try {
+			preparedStatement = connectionHolder.getConnection().prepareStatement(query);
+			resultSet = preparedStatement.executeQuery();
 		} catch (SQLException e) {
-			logger.error(e);	
+			logger.error(e);
 			throw new Exception(e);
 		}
 		return resultSet;
 	}
 
+	private void closeStatement(ResultSet resultSet) throws SQLException {
+		if (resultSet != null) {
+			resultSet.getStatement().close();
+		}
+	}
+
 	private void executeUpdate(String query) throws Exception {
-		try {
-			connectionHolder.getConnection().prepareStatement(query).executeUpdate();
+		try (PreparedStatement preparedStatement = connectionHolder.getConnection().prepareStatement(query)) {
+			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
-			logger.error(e);	
+			logger.error(e);
 			throw new Exception(e);
 		}
 	}
@@ -109,13 +119,13 @@ public abstract class GenericDAO<T extends IEntity> implements IGenericDAO<T> {
 	private T createEntity(ResultSet resultSet, EntityInfo entityInfo, T newEntity)
 			throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, SQLException,
 			NoSuchMethodException, SecurityException {
-		
-			Iterator<String> columnsIterator = entityInfo.getColumns().iterator();
-			while (columnsIterator.hasNext()) {
-				String columnName = columnsIterator.next();
-				Method setMethod = newEntity.getClass().getMethod(getSetMethod(columnName), String.class);
-				setMethod.invoke(newEntity, resultSet.getString(entityInfo.getTableName() + "." + columnName));
-			}		
+
+		Iterator<String> columnsIterator = entityInfo.getColumns().iterator();
+		while (columnsIterator.hasNext()) {
+			String columnName = columnsIterator.next();
+			Method setMethod = newEntity.getClass().getMethod(getSetMethod(columnName), String.class);
+			setMethod.invoke(newEntity, resultSet.getString(entityInfo.getTableName() + "." + columnName));
+		}
 		return newEntity;
 	}
 
@@ -155,12 +165,14 @@ public abstract class GenericDAO<T extends IEntity> implements IGenericDAO<T> {
 			}
 		} catch (InstantiationException | IllegalAccessException | SecurityException | InvocationTargetException
 				| NoSuchMethodException | IllegalArgumentException | SQLException e) {
-			logger.error(e);	
+			logger.error(e);
 			throw new Exception(e);
+		} finally {
+			closeStatement(resultSet);
 		}
 		return new ArrayList<T>(entities.values());
 	}
-	
+
 	public Connection getConnection() throws SQLException {
 		return connectionHolder.getConnection();
 	}
@@ -168,7 +180,7 @@ public abstract class GenericDAO<T extends IEntity> implements IGenericDAO<T> {
 	public void exit() throws Exception {
 		try {
 			connectionHolder.closeConnection();
-		} catch (SQLException e) {			
+		} catch (SQLException e) {
 			logger.error(e);
 			throw new Exception(e);
 		}

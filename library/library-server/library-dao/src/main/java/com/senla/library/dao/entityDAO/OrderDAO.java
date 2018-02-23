@@ -11,7 +11,7 @@ import com.senla.library.api.dao.SortingCriteria;
 import com.senla.library.entity.Order;
 
 @Singleton
-public class OrderDAO extends GenericDAO<IOrder> implements IOrderDAO{
+public class OrderDAO extends AbstractDAO<IOrder> implements IOrderDAO{
 	private static OrderDAO instance;
 	
 	public OrderDAO() throws Exception {		

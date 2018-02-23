@@ -7,5 +7,7 @@ public interface IOrder extends IEntity {
 	
 	void setStatus(OrderStatus orderStatus);
 	void setDate(Date date);
-	List<IBook> getBooks();
+	List<? extends IBook> getBooks();
+	double getTotalAmount();
+	IOrder clone() throws CloneNotSupportedException;
 }

@@ -8,7 +8,7 @@ import java.util.List;
 
 import com.senla.library.api.bean.IEntity;
 
-public  interface  IGenericDAO<T extends IEntity> {
+public  interface  GenericDAO<T extends IEntity> {
 	
 	List<T> getAll(Class<? extends T> clazz) throws Exception;
 	List<T> getAll(Class<? extends T> clazz, SortingCriteria sortingCriteria) throws Exception;

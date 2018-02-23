@@ -11,7 +11,7 @@ import com.senla.library.config.reader.PropertyReader;
 public class ConnectionHolder {
 
 	private static volatile ConnectionHolder instance;
-	private volatile Connection connection;
+	private volatile Connection dbConnection;
 
 	private ConnectionHolder() throws SQLException {
 		connect();
@@ -33,19 +33,19 @@ public class ConnectionHolder {
 		String DB_CONNECTION = properties.get(PropertyUnit.DB_CONNECTION);
 		String DB_USER = properties.get(PropertyUnit.DB_USER);
 		String DB_PASSWORD = properties.get(PropertyUnit.DB_PASSWORD);
-		connection = DriverManager.getConnection(DB_CONNECTION, DB_USER, DB_PASSWORD);
+		dbConnection = DriverManager.getConnection(DB_CONNECTION, DB_USER, DB_PASSWORD);
 	}
 
 	public Connection getConnection() throws SQLException {
-		if (connection == null) {
+		if (dbConnection == null) {
 			connect();
 		}
-		return connection;
+		return dbConnection;
 	}
 
 	public void closeConnection() throws SQLException {
-		if (connection != null) {
-			connection.close();
+		if (dbConnection != null) {
+			dbConnection.close();
 		}
 	}
 }

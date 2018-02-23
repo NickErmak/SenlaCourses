@@ -11,7 +11,7 @@ import com.senla.library.api.annotation.dao.Id;
 import com.senla.library.util.DateConverter;;
 
 @EntityDAO(table = "book_info", pk = "id")
-public class BookInfo extends Entity{
+public class BookInfo extends Entity {
 
 	@Id
 	@ColumnDAO(name = "id") 
@@ -38,10 +38,6 @@ public class BookInfo extends Entity{
 		return id;
 	}
 
-	public void setId(int id) {
-		this.id = id;
-	}	
-	
 	public void setId(String id) {
 		this.id = Integer.valueOf(id);
 	}	
@@ -84,6 +80,11 @@ public class BookInfo extends Entity{
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+	
+	@Override
+	public BookInfo clone() throws CloneNotSupportedException {
+		return (BookInfo) super.clone();		
 	}
 
 	@Override

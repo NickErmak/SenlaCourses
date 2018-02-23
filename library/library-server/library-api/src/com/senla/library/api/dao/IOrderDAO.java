@@ -6,7 +6,7 @@ import java.util.List;
 
 import com.senla.library.api.bean.IOrder;
 
-public interface IOrderDAO extends IGenericDAO<IOrder> {
+public interface IOrderDAO extends GenericDAO<IOrder> {
 
 	IOrder getOrder(int id) throws Exception;
 	List<IOrder> getOrders() throws Exception;

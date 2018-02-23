@@ -5,8 +5,10 @@ import static com.senla.library.csv.CSVHandler.CSVFileWriter.write;
 import static com.senla.library.util.DateConverter.minusMonth;
 
 import java.lang.reflect.Field;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import com.senla.library.api.bean.BookStatus;
 import com.senla.library.api.bean.IBook;
@@ -22,7 +24,12 @@ public class BookManager {
 		bookDAO = DaoShell.getBookDAO();
 	}
 
-	public void addBook(IBook book) {
+	public void addBookToStorage(IBook book) throws Exception {
+		book.setStatus(BookStatus.ON_STORAGE);
+		updateBook(book);
+	}
+
+	public void charterBook(IBook book) throws Exception {
 		bookDAO.add(book);
 	}
 
@@ -30,11 +37,11 @@ public class BookManager {
 		return bookDAO.getBook(id);
 	}
 
-	public void updateBook(IBook book) {
+	public void updateBook(IBook book) throws Exception {
 		bookDAO.update(book);
 	}
 
-	public void writeOffBook(IBook book) {
+	public void writeOffBook(IBook book) throws Exception {
 		book.setStatus(BookStatus.SOLD);
 		updateBook(book);
 	}
@@ -60,14 +67,26 @@ public class BookManager {
 	}
 
 	public void importCSV(String filePath) throws Exception {
-		Iterator<Book> iteratorCSV = read(Book.class, filePath).iterator();		
+		Iterator<Book> iteratorCSV = read(Book.class, filePath).iterator();
+		Map<Integer, IBook> mappedBooks = getMappedBooks();
 		while (iteratorCSV.hasNext()) {
 			IBook bookCSV = iteratorCSV.next();
-			IBook book = getBook(bookCSV.getId());
-			if (book != null) {				
-				updateBook(book);
+			if (mappedBooks.containsKey(bookCSV.getId())) {
+				updateBook(bookCSV);
+			} else {
+				bookDAO.add(bookCSV);
 			}
 		}
+	}
+
+	private Map<Integer, IBook> getMappedBooks() throws Exception {
+		Map<Integer, IBook> mappedBooks = new HashMap<>();
+		Iterator<IBook> books = getBooks().iterator();
+		while (books.hasNext()) {
+			IBook book = books.next();
+			mappedBooks.put(book.getId(), book);
+		}
+		return mappedBooks;
 	}
 
 	public void exit() throws Exception {

@@ -11,7 +11,7 @@ import com.senla.library.api.dao.SortingCriteria;
 import com.senla.library.entity.Book;
 
 @Singleton
-public class BookDAO extends GenericDAO<IBook> implements IBookDAO{
+public class BookDAO extends AbstractDAO<IBook> implements IBookDAO{
 	
 	public BookDAO() throws Exception {
 		super();	

@@ -22,7 +22,7 @@ import com.senla.library.util.Printer;
 public class Server {
 	private static Logger logger = Logger.getLogger(Server.class);
 	private static Server instance;
-	private ILibraryManager libraryManager;
+	private LibraryManager libraryManager;
 
 	static {
 		DOMConfigurator.configure("resources/log4j.xml");

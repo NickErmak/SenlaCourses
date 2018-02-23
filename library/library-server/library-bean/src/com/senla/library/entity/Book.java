@@ -74,6 +74,14 @@ public class Book extends Entity implements IBook, Cloneable {
 	public void setStatus(String status) {
 		this.status = BookStatus.getStatus(status);
 	}
+	
+	@Override
+	public Book clone() throws CloneNotSupportedException {
+		Book cloneBook = (Book) super.clone();
+		cloneBook.id = 0;
+		cloneBook.setBookInfo(this.bookInfo.clone());
+		return cloneBook;
+	}
 
 	@Override
 	public String toString() {
